@@ -496,6 +496,22 @@
         </div>
     </div>
 
+    <!-- Professional input prompt (replaces browser prompt) -->
+    <div class="modal-overlay" id="promptModal">
+        <div class="popup-card" style="text-align:left;width:400px;max-width:95%;">
+            <div style="text-align:center;margin-bottom:12px;">
+                <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--primary);text-transform:uppercase;">Dough Art</div>
+                <h3 id="promptTitle" style="color:var(--primary);margin:6px 0 0;font-size:18px;">Enter value</h3>
+            </div>
+            <p id="promptMessage" style="font-size:13px;color:#64748b;margin-bottom:12px;"></p>
+            <input type="text" id="promptInput" style="width:100%;padding:12px 14px;border:1.5px solid var(--gray-border);border-radius:8px;font-size:15px;font-weight:600;margin-bottom:16px;" />
+            <div style="display:flex;gap:10px;">
+                <button class="popup-btn" type="button" style="background:var(--primary);flex:1;" onclick="confirmPromptModal()">OK</button>
+                <button class="popup-btn" type="button" style="background:#64748b;flex:1;" onclick="closePromptModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div id="printInvoice" class="print-invoice-container">
         <div class="print-header" style="position:relative;">
             <h1>DOUGH ART</h1>
@@ -675,7 +691,53 @@ function showPopupAlert(title, message, isSuccess = true) {
         iconEl.style.background = "#fce8e6";
         iconEl.style.color = "var(--danger)";
     }
+    // Brand subtitle if not present
+    let brand = document.getElementById('popupBrandLabel');
+    if (!brand) {
+        brand = document.createElement('div');
+        brand.id = 'popupBrandLabel';
+        brand.style.cssText = 'font-size:11px;font-weight:800;letter-spacing:2px;color:var(--primary);text-transform:uppercase;margin-bottom:4px;';
+        brand.innerText = 'DOUGH ART';
+        const card = document.getElementById('standardPopupCard');
+        card.insertBefore(brand, card.firstChild);
+    }
     document.getElementById('popupModal').classList.add('active');
+}
+
+/* Professional prompt (replaces browser prompt/alert) */
+let _promptCallback = null;
+function showAppPrompt(title, message, defaultValue, callback) {
+    _promptCallback = callback;
+    document.getElementById('promptTitle').innerText = title || 'Dough Art';
+    document.getElementById('promptMessage').innerText = message || '';
+    const inp = document.getElementById('promptInput');
+    inp.value = defaultValue != null ? String(defaultValue) : '';
+    document.getElementById('promptModal').classList.add('active');
+    setTimeout(() => { inp.focus(); inp.select(); }, 80);
+}
+function closePromptModal() {
+    document.getElementById('promptModal').classList.remove('active');
+    _promptCallback = null;
+}
+function confirmPromptModal() {
+    const val = document.getElementById('promptInput').value;
+    const cb = _promptCallback;
+    document.getElementById('promptModal').classList.remove('active');
+    _promptCallback = null;
+    if (typeof cb === 'function') cb(val);
+}
+// Enter key on prompt input
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('promptModal').classList.contains('active')) {
+        e.preventDefault();
+        confirmPromptModal();
+    }
+    if (e.key === 'Escape' && document.getElementById('promptModal').classList.contains('active')) {
+        closePromptModal();
+    }
+});
+function appAlert(msg) {
+    showPopupAlert('Dough Art', msg, false);
 }
 
 function openVoucherReport() {
@@ -746,7 +808,7 @@ function applyUserDateFilterReport() {
     let rawFrom = document.getElementById('reportDateFrom').value;
     let rawTo = document.getElementById('reportDateTo').value;
     if (!rawFrom || !rawTo) {
-        alert("Meherbani karke dono dates select karein!");
+        showPopupAlert("Dates Required", "Meherbani karke dono dates select karein!", false);
         return;
     }
     let startBound = new Date(rawFrom); startBound.setHours(0, 0, 0, 0);
@@ -800,11 +862,11 @@ function closeCancelModal() {
 function submitCancelRequest() {
     const ref = document.getElementById('cancelVoucherSelect').value;
     const reason = (document.getElementById('cancelReasonInput').value || '').trim();
-    if (!ref) return alert('Voucher select karein');
-    if (!reason) return alert('Cancel reason likhna zaroori hai');
+    if (!ref) return showPopupAlert('Required', 'Voucher select karein', false);
+    if (!reason) return showPopupAlert('Required', 'Cancel reason likhna zaroori hai', false);
 
     const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
-    if (idx < 0) return alert('Voucher not found');
+    if (idx < 0) return showPopupAlert('Not Found', 'Voucher not found', false);
 
     totalVouchersHistory[idx] = {
         ...totalVouchersHistory[idx],
@@ -843,7 +905,7 @@ function changeVoucherStatus(ref, newStatus) {
     const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
     if (idx < 0) return;
     if (String(totalVouchersHistory[idx].status || '').toLowerCase().includes('cancel')) {
-        alert('Cancelled voucher ka status change nahi ho sakta. Admin se contact karein.');
+        showPopupAlert('Locked', 'Cancelled voucher ka status change nahi ho sakta. Admin se contact karein.', false);
         return;
     }
     totalVouchersHistory[idx].status = newStatus;
@@ -900,16 +962,17 @@ function selectCakeOption(name, price) {
 function addNewCakeToSystem(rawName) {
     let cleanName = rawName.toUpperCase().trim();
     if (!cleanName) return;
-    let pricePrompt = prompt(`Enter Default Price for "${cleanName}":`, "1200");
-    let price = parseFloat(pricePrompt) || 1200;
-    let newObj = { name: cleanName, defaultPrice: price };
-    cakeDatabase.push(newObj);
-    localStorage.setItem('da_cakeDatabase', JSON.stringify(cakeDatabase));
-    database.ref('da_cakeDatabase').set(cakeDatabase);
-    selectCakeOption(cleanName, price);
-    innerSearchBar.value = "";
-    buildCakeDropdownList("");
-    showPopupAlert("Cake Added!", `"${cleanName}" permanently saved.`, true);
+    showAppPrompt('New Product Price', 'Default price (Rs.) for "' + cleanName + '"', '1200', function(pricePrompt) {
+        let price = parseFloat(pricePrompt) || 1200;
+        let newObj = { name: cleanName, defaultPrice: price };
+        cakeDatabase.push(newObj);
+        localStorage.setItem('da_cakeDatabase', JSON.stringify(cakeDatabase));
+        database.ref('da_cakeDatabase').set(cakeDatabase);
+        selectCakeOption(cleanName, price);
+        innerSearchBar.value = "";
+        buildCakeDropdownList("");
+        showPopupAlert("Cake Added!", '"' + cleanName + '" permanently saved.', true);
+    });
 }
 
 function triggerCartInsertion() {
@@ -945,20 +1008,22 @@ function removeCartItem(idx) {
 function editCartItem(idx) {
     const x = cartItems[idx];
     if (!x) return;
-    const newQty = prompt('Quantity / Weight for ' + x.name + ':', x.weight);
-    if (newQty === null) return;
-    const newRate = prompt('Rate (Rs.) for ' + x.name + ':', x.rate);
-    if (newRate === null) return;
-    const qty = parseFloat(newQty) || 0;
-    const rate = parseFloat(newRate) || 0;
-    if (qty <= 0) {
-        showPopupAlert('Invalid', 'Quantity 0 se zyada honi chahiye', false);
-        return;
-    }
-    cartItems[idx].weight = qty;
-    cartItems[idx].rate = rate;
-    cartItems[idx].total = qty * rate;
-    recalculatePOSSums();
+    showAppPrompt('Edit Quantity', 'Quantity / Weight for ' + x.name, x.weight, function(newQty) {
+        if (newQty === null || newQty === undefined) return;
+        const qty = parseFloat(newQty) || 0;
+        if (qty <= 0) {
+            showPopupAlert('Invalid', 'Quantity 0 se zyada honi chahiye', false);
+            return;
+        }
+        showAppPrompt('Edit Rate', 'Rate (Rs.) for ' + x.name, x.rate, function(newRate) {
+            if (newRate === null || newRate === undefined) return;
+            const rate = parseFloat(newRate) || 0;
+            cartItems[idx].weight = qty;
+            cartItems[idx].rate = rate;
+            cartItems[idx].total = qty * rate;
+            recalculatePOSSums();
+        });
+    });
 }
 
 function recalculatePOSSums() {
@@ -1100,7 +1165,7 @@ function setPrintCancelledUI(isCancel, amount, reason) {
 
 function searchAndPrintOldInvoice() {
     let searchVal = document.getElementById('searchRefInput').value.trim().toUpperCase();
-    if (!searchVal) { alert("Please enter a Reference number!"); return; }
+    if (!searchVal) { showPopupAlert("Required", "Please enter a Reference number!", false); return; }
     let formattedSearch = searchVal;
     if (!searchVal.startsWith("D.A-")) {
         let digits = searchVal.replace(/\D/g, "");

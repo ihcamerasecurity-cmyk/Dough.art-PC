@@ -13,481 +13,259 @@
             --text-dark: #1e293b;
             --success: #16a34a;
             --danger: #dc2626;
+            --warning: #d97706;
+            --info: #2563eb;
         }
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; }
         body {
-            background-color: #f1f5f9;
-            color: var(--text-dark);
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: #f1f5f9; color: var(--text-dark); padding: 20px;
+            min-height: 100vh; display: flex; flex-direction: column;
         }
-
         .dev-top-bar {
-            text-align: center;
-            background: #271404;
-            color: #f5d0a9;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 6px;
-            letter-spacing: 1.5px;
-            border-radius: 6px 6px 0 0;
+            text-align: center; background: #271404; color: #f5d0a9; font-size: 13px;
+            font-weight: 700; padding: 6px; letter-spacing: 1.5px; border-radius: 6px 6px 0 0;
             text-transform: uppercase;
         }
-
         header {
-            background: linear-gradient(135deg, var(--primary), #633b17);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 0 0 8px 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            background: linear-gradient(135deg, var(--primary), #633b17); color: white;
+            padding: 15px 25px; border-radius: 0 0 8px 8px; display: flex;
+            justify-content: space-between; align-items: center; margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); flex-wrap: wrap; gap: 10px;
         }
-
-        header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-        }
-
-        .header-center-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
+        header h1 { font-size: 26px; font-weight: 800; letter-spacing: 1.5px; }
+        .header-center-buttons { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .btn-report-toggle {
-            background: #f5d0a9;
-            color: var(--primary);
-            border: none;
-            padding: 8px 15px;
-            font-size: 13px;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
+            background: #f5d0a9; color: var(--primary); border: none; padding: 8px 15px;
+            font-size: 13px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
         }
         .btn-report-toggle:hover { background: #e7bd93; }
-
         .search-old-ref-box {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; gap: 6px; align-items: center; background: rgba(255,255,255,0.15);
+            padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);
         }
-
         .search-old-ref-box input {
-            background: white;
-            color: var(--text-dark);
-            border: none;
-            padding: 6px 10px;
-            font-size: 13px;
-            border-radius: 4px;
-            width: 140px;
-            font-weight: 600;
+            background: white; color: var(--text-dark); border: none; padding: 6px 10px;
+            font-size: 13px; border-radius: 4px; width: 140px; font-weight: 600;
         }
-
         .btn-search-old {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
+            background: var(--accent); color: white; border: none; padding: 6px 12px;
+            font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
         }
-        .btn-search-old:hover { background: #a6266f; }
-
         .ref-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 700;
+            background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 4px;
+            font-size: 14px; font-weight: 700;
         }
-
-        .workspace {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            flex: 1;
-        }
-
+        .workspace { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; flex: 1; }
         .panel {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
+            background: white; border-radius: 8px; padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column;
         }
-
         .section-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            color: var(--primary);
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;
+            color: var(--primary); border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px;
         }
-
-        .search-container {
-            position: relative;
-        }
-
+        .search-container { position: relative; }
         .custom-select-box {
-            padding: 10px 14px;
-            border: 1.5px solid var(--gray-border);
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: #fff;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
+            padding: 10px 14px; border: 1.5px solid var(--gray-border); border-radius: 6px;
+            font-size: 14px; background: #fff; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center; font-weight: 600;
         }
-
         .dropdown-panel {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid var(--gray-border);
-            border-radius: 6px;
-            margin-top: 5px;
-            max-height: 280px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            display: none;
-            padding: 10px;
+            position: absolute; top: 100%; left: 0; right: 0; background: white;
+            border: 1px solid var(--gray-border); border-radius: 6px; margin-top: 5px;
+            max-height: 280px; overflow-y: auto; z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: none; padding: 10px;
         }
-
         .search-bar-inside {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--gray-border);
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 13px;
+            width: 100%; padding: 8px 12px; border: 1px solid var(--gray-border);
+            border-radius: 4px; margin-bottom: 10px; font-size: 13px;
         }
-
-        .cake-list-items {
-            max-height: 180px;
-            overflow-y: auto;
-        }
-
+        .cake-list-items { max-height: 180px; overflow-y: auto; }
         .cake-option-row {
-            padding: 10px;
-            cursor: pointer;
-            font-size: 13.5px;
-            font-weight: 700;
-            border-radius: 4px;
-            border-bottom: 1px solid #f1f5f9;
-            text-transform: uppercase;
+            padding: 10px; cursor: pointer; font-size: 13.5px; font-weight: 700;
+            border-radius: 4px; border-bottom: 1px solid #f1f5f9; text-transform: uppercase;
         }
-
-        .cake-option-row:hover {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .add-new-box {
-            padding: 12px;
-            text-align: center;
-            background: #fff5f5;
-            border-radius: 4px;
-            margin-top: 5px;
-        }
-
+        .cake-option-row:hover { background: var(--primary-light); color: var(--primary); }
+        .add-new-box { padding: 12px; text-align: center; background: #fff5f5; border-radius: 4px; margin-top: 5px; }
         .entry-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr auto;
-            gap: 12px;
-            margin-bottom: 20px;
-            align-items: flex-end;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 12px;
+            margin-bottom: 20px; align-items: flex-end;
         }
-
-        .customer-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #64748b;
-        }
-
+        .customer-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #64748b; }
         input, select {
-            padding: 10px 14px;
-            border: 1.5px solid var(--gray-border);
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
+            padding: 10px 14px; border: 1.5px solid var(--gray-border); border-radius: 6px;
+            font-size: 14px; outline: none;
         }
-
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(74, 44, 17, 0.15);
-        }
-
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,44,17,0.15); }
         .btn {
-            padding: 11px 20px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
+            padding: 11px 20px; border-radius: 6px; font-size: 14px; font-weight: 700;
+            cursor: pointer; border: none; transition: all 0.2s;
         }
-
         .btn-add { background-color: var(--success); color: white; }
         .btn-add:hover { background-color: #15803d; }
         .btn-danger { background-color: var(--danger); color: white; padding: 6px 12px; font-size: 12px; }
-        
         .btn-action {
-            background: var(--primary);
-            color: white;
-            padding: 14px;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(74, 44, 17, 0.2);
-            width: 100%;
+            background: var(--primary); color: white; padding: 14px; font-size: 16px;
+            box-shadow: 0 4px 6px rgba(74,44,17,0.2); width: 100%;
         }
         .btn-action:hover { background: #36200c; }
-
+        .btn-cancel-req {
+            background: #fff; border: 2px solid var(--danger); color: var(--danger);
+            padding: 12px; font-size: 14px; width: 100%; margin-top: 10px; font-weight: 700;
+        }
+        .btn-cancel-req:hover { background: #fef2f2; }
         .btn-inline-add {
-            background-color: var(--accent);
-            color: white;
-            font-size: 12px;
-            padding: 6px 12px;
-            border-radius: 4px;
-            margin-top: 5px;
-            font-weight: bold;
+            background-color: var(--accent); color: white; font-size: 12px;
+            padding: 6px 12px; border-radius: 4px; margin-top: 5px; font-weight: bold;
         }
-
         .table-container {
-            flex: 1;
-            overflow-y: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            min-height: 200px;
+            flex: 1; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px;
+            margin-bottom: 20px; min-height: 200px;
         }
-
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { background-color: var(--primary-light); color: var(--primary); padding: 12px; font-weight: 700; text-align: left; border-bottom: 2px solid #e2e8f0; }
+        th {
+            background-color: var(--primary-light); color: var(--primary); padding: 12px;
+            font-weight: 700; text-align: left; border-bottom: 2px solid #e2e8f0;
+        }
         td { padding: 12px; border-bottom: 1px solid #edf2f7; }
-
         .summary-card {
-            background: var(--primary-light);
-            border: 1px dashed var(--primary);
-            border-radius: 6px;
-            padding: 18px;
-            margin-bottom: 20px;
+            background: var(--primary-light); border: 1px dashed var(--primary);
+            border-radius: 6px; padding: 18px; margin-bottom: 20px;
         }
-
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; }
-        .grand-total { font-size: 26px; font-weight: 800; color: var(--primary); border-top: 2px dashed #cbd5e1; padding-top: 12px; margin-top: 12px; }
-
-        .history-box { margin-top: 15px; max-height: 150px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; background: #fafafa; }
-        .history-item { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px; display: flex; justify-content: space-between; }
-
-        footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 12px 25px;
-            border-radius: 8px;
+        .grand-total {
+            font-size: 26px; font-weight: 800; color: var(--primary);
+            border-top: 2px dashed #cbd5e1; padding-top: 12px; margin-top: 12px;
         }
-
+        .history-box {
+            margin-top: 15px; max-height: 180px; overflow-y: auto; border: 1px solid #cbd5e1;
+            border-radius: 6px; background: #fafafa;
+        }
+        .history-item {
+            padding: 8px 12px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px;
+            display: flex; justify-content: space-between; align-items: center; gap: 6px; cursor: pointer;
+        }
+        .history-item:hover { background: #f1f5f9; }
+        .badge {
+            font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; text-transform: uppercase;
+        }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-dispatch { background: #dbeafe; color: #1e40af; }
+        .badge-delivered { background: #dcfce7; color: #166534; }
+        .badge-cancelled { background: #fee2e2; color: #991b1b; }
+        footer {
+            margin-top: 20px; display: flex; justify-content: space-between; align-items: center;
+            background: white; padding: 12px 25px; border-radius: 8px;
+        }
         .insta-tag { font-size: 14px; color: #475569; }
         .insta-tag strong { color: var(--accent); font-weight: 700; }
         .logo-box-circle { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary); }
         .logo-box-circle img { width: 100%; height: 100%; object-fit: cover; }
-
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex;
+            justify-content: center; align-items: center; z-index: 2000; opacity: 0;
+            visibility: hidden; transition: all 0.3s ease-in-out; padding: 16px;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .popup-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 380px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            transform: scale(0.7);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: white; padding: 30px; border-radius: 12px; width: 380px; max-width: 100%;
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: scale(0.7); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal-overlay.active .popup-card { transform: scale(1); }
         .popup-icon {
-            width: 60px; height: 60px;
-            background: #e6f4ea;
-            color: var(--success);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            margin: 0 auto 15px;
+            width: 60px; height: 60px; background: #e6f4ea; color: var(--success); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 30px; margin: 0 auto 15px;
         }
         .popup-card h3 { font-size: 22px; color: var(--primary); margin-bottom: 10px; }
         .popup-card p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
-        .popup-btn { background: var(--primary); color: white; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; width: 100%; }
-
-        /* Report Modal System Elements */
+        .popup-btn {
+            background: var(--primary); color: white; padding: 10px 24px; border-radius: 6px;
+            font-weight: 700; cursor: pointer; border: none; width: 100%;
+        }
         .report-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            width: 700px;
-            max-width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            text-align: left;
+            background: white; padding: 25px; border-radius: 12px; width: 720px; max-width: 95%;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: left;
         }
         .date-range-filter-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 10px;
-            align-items: flex-end;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
+            display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 10px; align-items: flex-end;
+            background: #f8fafc; padding: 12px; border-radius: 6px; margin-bottom: 15px;
             border: 1px solid var(--gray-border);
         }
         .report-grid-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px;
         }
         .report-stat-box {
-            background: var(--primary-light);
-            border: 1px solid var(--gray-border);
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
+            background: var(--primary-light); border: 1px solid var(--gray-border);
+            padding: 14px; border-radius: 6px; text-align: center;
         }
-        .report-stat-box h4 { font-size: 12px; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
-        .report-stat-box p { font-size: 22px; font-weight: 800; color: var(--primary); }
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        .report-stat-box h4 { font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
+        .report-stat-box p { font-size: 20px; font-weight: 800; color: var(--primary); }
+        .report-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .status-select {
+            padding: 6px 8px; border-radius: 6px; border: 1.5px solid var(--gray-border);
+            font-size: 12px; font-weight: 600;
         }
-
-        .sync-badge {
-            font-size: 11px;
-            color: var(--success);
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 4px;
+        .sync-badge { font-size: 11px; color: var(--success); font-weight: bold; display: inline-block; margin-top: 4px; }
+        .kb-hint { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+            .entry-row { grid-template-columns: 1fr 1fr; }
+            .customer-row { grid-template-columns: 1fr; }
+            .report-grid-summary { grid-template-columns: 1fr 1fr; }
+            .date-range-filter-box { grid-template-columns: 1fr 1fr; }
         }
-
         @media print {
-            @page { 
-                size: auto;
-                margin: 0mm !important; 
-            }
-            html, body {
-                margin: 0px !important;
-                padding: 0px !important;
-                background: #fff;
-            }
+            @page { size: auto; margin: 0mm !important; }
+            html, body { margin: 0 !important; padding: 0 !important; background: #fff; }
             body * { visibility: hidden; }
             #printInvoice, #printInvoice * { visibility: visible; }
             #printInvoice {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                display: block !important;
-                background: white;
-                color: black;
-                padding: 25mm 20mm;
-                box-sizing: border-box;
+                position: absolute; left: 0; top: 0; width: 100%; display: block !important;
+                background: white; color: black; padding: 25mm 20mm; box-sizing: border-box;
             }
             body.print-report-mode #printInvoice { display: none !important; }
-            body.print-report-mode .modal-overlay.active { visibility: visible !important; opacity: 1 !important; position: absolute !important; left: 0; top: 0; width: 100%; background: white; }
-            body.print-report-mode .report-card { visibility: visible !important; position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; padding: 20mm; }
+            body.print-report-mode .modal-overlay.active {
+                visibility: visible !important; opacity: 1 !important; position: absolute !important;
+                left: 0; top: 0; width: 100%; background: white;
+            }
+            body.print-report-mode .report-card {
+                visibility: visible !important; position: absolute; left: 0; top: 0;
+                width: 100%; max-width: 100%; box-shadow: none; padding: 20mm;
+            }
             body.print-report-mode .report-card * { visibility: visible !important; }
-            body.print-report-mode .report-actions, body.print-report-mode .popup-btn, body.print-report-mode .date-range-filter-box { display: none !important; }
-
+            body.print-report-mode .report-actions,
+            body.print-report-mode .popup-btn,
+            body.print-report-mode .date-range-filter-box { display: none !important; }
             .workspace, header, footer, .dev-top-bar, .modal-overlay, .btn-danger { display: none !important; }
-            
             .print-header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
             .print-header h1 { font-size: 36px; font-weight: 900; letter-spacing: 2px; margin: 0; color: #000; }
-            
             .print-subtitle { font-size: 16px; font-weight: 700; text-transform: uppercase; margin-top: 5px; margin-bottom: 15px; }
             .print-meta-grid { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; border-top: 1px solid #000; padding-top: 6px; }
             .print-customer-box { font-size: 13px; line-height: 1.6; margin-bottom: 20px; padding: 5px 0; border-bottom: 1px solid #ccc; }
-            
             .print-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-            .print-table th { background-color: #f5f5f5 !important; color: #000 !important; border-bottom: 2px solid #000 !important; border-top: 1px solid #000 !important; padding: 10px; font-size: 13px; font-weight: bold; text-align: left; }
-            .print-table td { padding: 10px; font-size: 13px; border-bottom: 1px dashed #ccc; text-transform: uppercase; border: 1px solid #ccc; }
+            .print-table th {
+                background: #f5f5f5 !important; color: #000 !important; border: 1px solid #000 !important;
+                padding: 10px; font-size: 13px; font-weight: bold; text-align: left;
+            }
+            .print-table td { padding: 10px; font-size: 13px; border: 1px solid #ccc; text-transform: uppercase; }
             .print-totals-box { text-align: right; font-size: 14px; line-height: 1.6; margin-top: 15px; }
             .print-grand-amount { font-size: 20px; font-weight: 800; border-top: 2px solid #000; display: inline-block; padding-top: 5px; margin-top: 5px; }
-            
             .print-signature-area { margin-top: 40px; display: flex; justify-content: flex-end; }
             .signature-line-item { font-size: 13px; font-weight: bold; }
             .signature-line-item span { border-bottom: 1px solid #000; display: inline-block; width: 150px; margin-left: 10px; }
-
             .print-footer-brand { text-align: center; margin-top: 50px; border-top: 1px dashed #000; padding-top: 12px; }
             .print-logo-frame { width: 55px; height: 55px; border-radius: 50%; overflow: hidden; border: 2px solid #000; margin: 8px auto; }
             .print-logo-frame img { width: 100%; height: 100%; object-fit: cover; }
         }
-
         .print-invoice-container { display: none; }
     </style>
-
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-
     <div class="dev-top-bar">Developed by MrCrazy digital company</div>
 
     <header>
@@ -495,41 +273,36 @@
             <h1>DOUGH ART</h1>
             <span id="syncStatus" class="sync-badge">☁️ Cloud Connected</span>
         </div>
-        
         <div class="header-center-buttons">
-            <button class="btn-report-toggle" onclick="openVoucherReport()">📊 View Reports</button>
+            <button class="btn-report-toggle" type="button" onclick="openVoucherReport()">📊 View Reports</button>
             <div class="search-old-ref-box">
-                <input type="text" id="searchRefInput" placeholder="Search Old Ref No...">
-                <button class="btn-search-old" onclick="searchAndPrintOldInvoice()">Print Old</button>
+                <input type="text" id="searchRefInput" class="kb-field" data-kb="search" placeholder="Search Old Ref No...">
+                <button class="btn-search-old" type="button" onclick="searchAndPrintOldInvoice()">Print Old</button>
             </div>
         </div>
-
-        <div class="header-right" style="text-align: right;">
-            <div class="ref-badge" style="margin-bottom: 5px;">Ref No: <span id="refNumber">D.A-001</span></div>
-            <div id="liveDate" style="font-size: 13px; font-weight: 600;">--/--/----</div>
+        <div class="header-right" style="text-align:right;">
+            <div class="ref-badge" style="margin-bottom:5px;">Ref No: <span id="refNumber">D.A-001</span></div>
+            <div id="liveDate" style="font-size:13px;font-weight:600;">--/--/----</div>
         </div>
     </header>
 
     <div class="workspace">
         <div class="panel">
             <div class="section-title">Product & Item Matrix Configurator</div>
-            
             <div class="entry-row">
                 <div class="form-group search-container">
                     <label>Select Product Item</label>
-                    <div class="custom-select-box" id="selectTrigger" onclick="toggleDropdownGrid()">
+                    <div class="custom-select-box" id="selectTrigger" onclick="toggleDropdownGrid()" tabindex="0">
                         <span id="selectedLabel">SELECT CAKE ITEM</span> <span>▼</span>
                     </div>
-                    
                     <div id="dropdownPanel" class="dropdown-panel">
-                        <input type="text" id="innerSearchBar" class="search-bar-inside" placeholder="Search cake flavor...">
+                        <input type="text" id="innerSearchBar" class="search-bar-inside kb-field" data-kb="cake-search" placeholder="Search cake flavor...">
                         <div id="cakeItemsList" class="cake-list-items"></div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="unitTypeSelect">Unit Type</label>
-                    <select id="unitTypeSelect">
+                    <select id="unitTypeSelect" class="kb-field" data-kb="unit">
                         <option value="LBS">Cakes LBS</option>
                         <option value="QTY">QTY (Pieces)</option>
                         <option value="KG">KG's</option>
@@ -537,14 +310,15 @@
                 </div>
                 <div class="form-group">
                     <label for="qtyInput" id="qtyInputLabel">Quantity / Weight</label>
-                    <input type="number" id="qtyInput" min="0.01" step="0.01" value="1" placeholder="Enter amount">
+                    <input type="number" id="qtyInput" class="kb-field" data-kb="qty" min="0.01" step="0.01" value="1" placeholder="Enter amount">
                 </div>
                 <div class="form-group">
                     <label for="rateInput">Rate / Price (Rs.)</label>
-                    <input type="number" id="rateInput" value="1000">
+                    <input type="number" id="rateInput" class="kb-field" data-kb="rate" value="1000">
                 </div>
-                <button class="btn btn-add" onclick="triggerCartInsertion()">Add Item</button>
+                <button class="btn btn-add" type="button" id="addItemBtn" onclick="triggerCartInsertion()">Add Item</button>
             </div>
+            <p class="kb-hint">⌨️ Enter = next field · Ctrl+S = Save & Print · Tap/click supported</p>
 
             <div class="table-container">
                 <table id="cartTable">
@@ -565,29 +339,47 @@
             <div class="customer-row">
                 <div class="form-group">
                     <label for="custName">Customer Name</label>
-                    <input type="text" id="custName" placeholder="Enter name">
+                    <input type="text" id="custName" class="kb-field" data-kb="cust-name" placeholder="Enter name">
                 </div>
                 <div class="form-group">
                     <label for="custNumber">Contact Number</label>
-                    <input type="text" id="custNumber" placeholder="Enter phone">
+                    <input type="text" id="custNumber" class="kb-field" data-kb="cust-phone" placeholder="Enter phone">
                 </div>
                 <div class="form-group">
                     <label for="payMode">Payment Mode</label>
-                    <select id="payMode">
+                    <select id="payMode" class="kb-field" data-kb="pay">
                         <option value="Delivery on Cash">Delivery on Cash</option>
                         <option value="Online Payment">Online Payment</option>
                     </select>
                 </div>
             </div>
+            <div class="customer-row">
+                <div class="form-group">
+                    <label for="orderStatus">Order Status</label>
+                    <select id="orderStatus" class="kb-field" data-kb="status">
+                        <option value="Cake Pending">Cake Pending</option>
+                        <option value="Dispatch">Dispatch</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="operatorName">Operator / Cashier</label>
+                    <input type="text" id="operatorName" class="kb-field" data-kb="operator" placeholder="Counter name"
+                           value="" onchange="localStorage.setItem('da_operator', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div class="kb-hint" style="padding-top:8px;">Status bill + history dono mein save hota hai</div>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="custAddress">Delivery Address</label>
-                <input type="text" id="custAddress" placeholder="Full residential location details...">
+                <input type="text" id="custAddress" class="kb-field" data-kb="address" placeholder="Full residential location details...">
             </div>
         </div>
 
         <div class="panel">
             <div class="section-title">Checkout Overview</div>
-            
             <div class="summary-card">
                 <div class="summary-row">
                     <span>Total Added Items:</span>
@@ -599,9 +391,10 @@
                 </div>
             </div>
 
-            <button class="btn btn-action" onclick="fireFinalExecution()">Save & Print Bill (Ctrl + S)</button>
+            <button class="btn btn-action" type="button" onclick="fireFinalExecution()">Save & Print Bill (Ctrl + S)</button>
+            <button class="btn btn-cancel-req" type="button" onclick="requestCancelVoucher()">⛔ Request Cancel Voucher</button>
 
-            <div class="section-title" style="margin-top: 25px;">Vouchers History Logs</div>
+            <div class="section-title" style="margin-top:25px;">Vouchers History Logs</div>
             <div id="historyLogsBox" class="history-box"></div>
         </div>
     </div>
@@ -613,12 +406,13 @@
         </div>
     </footer>
 
+    <!-- Standard + Report Modal -->
     <div class="modal-overlay" id="popupModal">
         <div class="popup-card" id="standardPopupCard">
             <div class="popup-icon">✓</div>
             <h3 id="popTitle">Success!</h3>
             <p id="popMessage">Operation completed successfully.</p>
-            <button class="popup-btn" onclick="closePopupAlert()">Continue</button>
+            <button class="popup-btn" type="button" onclick="closePopupAlert()">Continue</button>
         </div>
 
         <div class="report-card" id="reportPopupCard" style="display:none;">
@@ -630,35 +424,45 @@
             <div class="date-range-filter-box">
                 <div class="form-group">
                     <label style="margin-bottom:3px;">From Date</label>
-                    <input type="date" id="reportDateFrom" style="padding:6px 10px; font-size:12px;">
+                    <input type="date" id="reportDateFrom" style="padding:6px 10px;font-size:12px;">
                 </div>
                 <div class="form-group">
                     <label style="margin-bottom:3px;">To Date</label>
-                    <input type="date" id="reportDateTo" style="padding:6px 10px; font-size:12px;">
+                    <input type="date" id="reportDateTo" style="padding:6px 10px;font-size:12px;">
                 </div>
-                <button class="btn btn-add" style="padding:8px 15px; font-size:12px;" onclick="applyUserDateFilterReport()">Filter Data</button>
+                <button class="btn btn-add" type="button" style="padding:8px 15px;font-size:12px;" onclick="applyUserDateFilterReport()">Filter</button>
+                <button class="btn" type="button" style="padding:8px 15px;font-size:12px;background:#64748b;color:#fff;" onclick="showAllReports()">All</button>
             </div>
-            
+
             <div class="section-title">1. Summary Report Metrics</div>
             <div class="report-grid-summary">
                 <div class="report-stat-box">
-                    <h4 id="countLabel">Total Vouchers Issued</h4>
-                    <p id="repTotalCount">0</p>
+                    <h4>Active Vouchers</h4>
+                    <p id="repActiveCount">0</p>
                 </div>
                 <div class="report-stat-box">
-                    <h4 id="revenueLabel">Total Revenue Generated</h4>
+                    <h4>Net Revenue (excl. cancelled)</h4>
                     <p>Rs. <span id="repTotalAmount">0.00</span></p>
+                </div>
+                <div class="report-stat-box">
+                    <h4>Cancelled</h4>
+                    <p id="repCancelledCount">0</p>
+                </div>
+                <div class="report-stat-box">
+                    <h4>All Records</h4>
+                    <p id="repTotalCount">0</p>
                 </div>
             </div>
 
-            <div class="section-title">2. Step-by-Step Detailed Log</div>
-            <div class="table-container" style="max-height: 250px;">
+            <div class="section-title">2. Detailed Log (All Statuses)</div>
+            <div class="table-container" style="max-height:280px;">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 30%;">Voucher REF No.</th>
-                            <th style="width: 45%;">Date & Time</th>
-                            <th style="width: 25%;">Price / Amount</th>
+                            <th>REF</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody id="reportTableBody"></tbody>
@@ -666,9 +470,29 @@
             </div>
 
             <div class="report-actions">
-                <button class="popup-btn" style="background:var(--success);" onclick="printSystemReport()">Print Full Report</button>
-                <button class="popup-btn" style="background:#64748b;" onclick="closePopupAlert()">Close</button>
+                <button class="popup-btn" type="button" style="background:var(--success);width:auto;padding:10px 18px;" onclick="printSystemReport()">Print Full Report</button>
+                <button class="popup-btn" type="button" style="background:#64748b;width:auto;padding:10px 18px;" onclick="closePopupAlert()">Close</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Cancel reason modal -->
+    <div class="modal-overlay" id="cancelModal">
+        <div class="popup-card" style="text-align:left;width:420px;">
+            <h3 style="color:var(--danger);margin-bottom:8px;">⛔ Cancel Request</h3>
+            <p style="font-size:13px;color:#64748b;margin-bottom:12px;">
+                Voucher select karein aur cancel ki wajah likhein. Request admin ko jayegi. Amount total revenue mein nahi aayega.
+            </p>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label>Select Voucher</label>
+                <select id="cancelVoucherSelect" style="width:100%;"></select>
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+                <label>Cancel Reason *</label>
+                <input type="text" id="cancelReasonInput" placeholder="e.g. Customer cancelled order" style="width:100%;">
+            </div>
+            <button class="popup-btn" type="button" style="background:var(--danger);margin-bottom:8px;" onclick="submitCancelRequest()">Send Cancel Request</button>
+            <button class="popup-btn" type="button" style="background:#64748b;" onclick="closeCancelModal()">Close</button>
         </div>
     </div>
 
@@ -682,521 +506,680 @@
             </div>
         </div>
         <div id="pCustDetails" class="print-customer-box"></div>
+        <div id="pStatusLine" style="font-size:13px;font-weight:700;margin-bottom:10px;"></div>
         <table class="print-table">
             <thead>
                 <tr>
-                    <th style="text-align: left; width: 55%;">Item Description</th>
-                    <th style="text-align: center; width: 15%;">Qty / Unit</th>
-                    <th style="text-align: center; width: 15%;">Rate</th>
-                    <th style="text-align: right; width: 15%;">Total</th>
+                    <th style="text-align:left;width:55%;">Item Description</th>
+                    <th style="text-align:center;width:15%;">Qty / Unit</th>
+                    <th style="text-align:center;width:15%;">Rate</th>
+                    <th style="text-align:right;width:15%;">Total</th>
                 </tr>
             </thead>
             <tbody id="pItemsBody"></tbody>
         </table>
         <div class="print-totals-box">
-            <div>Payment Mode: <span id="pMethod" style="font-weight: bold;">Delivery on Cash</span></div>
+            <div>Payment Mode: <span id="pMethod" style="font-weight:bold;">Delivery on Cash</span></div>
             <div class="print-grand-amount">Grand Total: Rs. <span id="pGrandTotal">0.00</span></div>
         </div>
         <div class="print-signature-area">
             <div class="signature-line-item">Checked By:<span></span></div>
         </div>
         <div class="print-footer-brand">
-            <p style="font-size: 13px; font-weight: bold;">Official Instagram: Dough.Art</p>
+            <p style="font-size:13px;font-weight:bold;">Official Instagram: Dough.Art</p>
             <div class="print-logo-frame">
                 <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Dough Art Badge Stamp">
             </div>
-            <p style="font-size:11px; font-style: italic; color:#444;">Thank You For Trusting Us - Dough Art!</p>
+            <p style="font-size:11px;font-style:italic;color:#444;">Thank You For Trusting Us - Dough Art!</p>
         </div>
     </div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDUg33dZk0hsqTMK2l2r32QCHeOZB93w4w",
-            authDomain: "website-create-ec499.firebaseapp.com",
-            databaseURL: "https://website-create-ec499-default-rtdb.firebaseio.com",
-            projectId: "website-create-ec499",
-            storageBucket: "website-create-ec499.firebasestorage.app",
-            messagingSenderId: "662033839999"
-        };
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDUg33dZk0hsqTMK2l2r32QCHeOZB93w4w",
+    authDomain: "website-create-ec499.firebaseapp.com",
+    databaseURL: "https://website-create-ec499-default-rtdb.firebaseio.com",
+    projectId: "website-create-ec499",
+    storageBucket: "website-create-ec499.firebasestorage.app",
+    messagingSenderId: "662033839999"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+const initialCakes = [
+    { name: "BUTTER CREAM CAKE", defaultPrice: 1200 },
+    { name: "CHOCOLATE FUDGE", defaultPrice: 1000 },
+    { name: "LOTUS CAKE", defaultPrice: 1500 },
+    { name: "FONDANT CAKE", defaultPrice: 1800 },
+    { name: "THREE MILKY CAKE", defaultPrice: 1400 }
+];
 
-        const initialCakes = [
-            { name: "BUTTER CREAM CAKE", defaultPrice: 1200 },
-            { name: "CHOCOLATE FUDGE", defaultPrice: 1000 },
-            { name: "LOTUS CAKE", defaultPrice: 1500 },
-            { name: "FONDANT CAKE", defaultPrice: 1800 },
-            { name: "THREE MILKY CAKE", defaultPrice: 1400 }
-        ];
+let referenceId = parseInt(localStorage.getItem('da_referenceId')) || 1;
+let cakeDatabase = JSON.parse(localStorage.getItem('da_cakeDatabase')) || initialCakes;
+let totalVouchersHistory = JSON.parse(localStorage.getItem('da_vouchersHistory')) || [];
+let cartItems = [];
+let activeSelectedCake = "";
 
-        let referenceId = parseInt(localStorage.getItem('da_referenceId')) || 1;
-        let cakeDatabase = JSON.parse(localStorage.getItem('da_cakeDatabase')) || initialCakes;
-        let totalVouchersHistory = JSON.parse(localStorage.getItem('da_vouchersHistory')) || [];
-        let cartItems = [];
-        let activeSelectedCake = "";
+window.onload = function() {
+    document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
+    const op = localStorage.getItem('da_operator') || '';
+    const opEl = document.getElementById('operatorName');
+    if (opEl) opEl.value = op;
+    renderSystemLogs();
+    buildCakeDropdownList("");
+    setupInputWatchers();
+    setupKeyboardNav();
+    syncDataFromCloud();
+};
 
-        window.onload = function() {
-            document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
-            renderSystemLogs();
-            buildCakeDropdownList("");
-            setupInputWatchers();
-            syncDataFromCloudCloud();
-        };
+function syncDataFromCloud() {
+    const statusEl = document.getElementById('syncStatus');
+    statusEl.innerText = "🔄 Syncing with Cloud...";
+    statusEl.style.color = "#eab308";
 
-        function syncDataFromCloudCloud() {
-            const statusEl = document.getElementById('syncStatus');
-            statusEl.innerText = "🔄 Syncing with Cloud...";
-            statusEl.style.color = "#eab308";
-
-            database.ref('da_referenceId').once('value').then((snapshot) => {
-                if(snapshot.exists()) {
-                    let cloudRefId = parseInt(snapshot.val());
-                    if (cloudRefId > referenceId) {
-                        referenceId = cloudRefId;
-                        localStorage.setItem('da_referenceId', referenceId);
-                        document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
-                    }
-                }
-            });
-
-            database.ref('da_vouchersHistory').once('value').then((snapshot) => {
-                if(snapshot.exists()) {
-                    let cloudData = snapshot.val();
-                    let parsedCloudHistory = Array.isArray(cloudData) ? cloudData : Object.values(cloudData);
-                    
-                    let map = new Map();
-                    totalVouchersHistory.forEach(item => { if(item) map.set(item.vouchRef, item); });
-                    parsedCloudHistory.forEach(item => { if(item) map.set(item.vouchRef, item); });
-                    
-                    totalVouchersHistory = Array.from(map.values()).sort((a, b) => b.vouchRef.localeCompare(a.vouchRef));
-                    
-                    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
-                    renderSystemLogs();
-                    statusEl.innerText = "☁️ Cloud Synced & Secure";
-                    statusEl.style.color = "var(--success)";
-                } else {
-                    statusEl.innerText = "☁️ Cloud Linked (Empty DB)";
-                    statusEl.style.color = "var(--success)";
-                }
-            }).catch(err => {
-                console.error(err);
-                statusEl.innerText = "⚠️ Offline Mode Active";
-                statusEl.style.color = "var(--danger)";
-            });
-        }
-
-        function clockTick() {
-            const dateObj = new Date();
-            document.getElementById('liveDate').innerText = "Date: " + dateObj.toLocaleDateString() + " | " + dateObj.toLocaleTimeString();
-        }
-        setInterval(clockTick, 1000);
-        clockTick();
-
-        const unitTypeSelect = document.getElementById('unitTypeSelect');
-        const qtyInput = document.getElementById('qtyInput');
-        const qtyInputLabel = document.getElementById('qtyInputLabel');
-
-        function updateQtyLabel() {
-            const u = unitTypeSelect.value;
-            if (u === 'LBS') qtyInputLabel.innerText = 'Pounds (LBS)';
-            else if (u === 'QTY') qtyInputLabel.innerText = 'Quantity (Pieces)';
-            else qtyInputLabel.innerText = "Kilograms (KG's)";
-        }
-        unitTypeSelect.addEventListener('change', updateQtyLabel);
-        updateQtyLabel();
-
-        function formatUnitLabel(qty, unit) {
-            const n = parseFloat(qty);
-            const q = (Number.isInteger(n) ? n : n.toFixed(2).replace(/\.00$/, ''));
-            if (unit === 'LBS') return q + ' LBS';
-            if (unit === 'QTY') return q + ' QTY';
-            if (unit === 'KG') return q + ' KG';
-            return q + ' ' + unit;
-        }
-
-        function showPopupAlert(title, message, isSuccess = true) {
-            document.getElementById('standardPopupCard').style.display = "block";
-            document.getElementById('reportPopupCard').style.display = "none";
-            document.getElementById('popTitle').innerText = title;
-            document.getElementById('popMessage').innerText = message;
-            const iconEl = document.querySelector('.popup-icon');
-            if(isSuccess) {
-                iconEl.innerText = "✓";
-                iconEl.style.background = "#e6f4ea";
-                iconEl.style.color = "var(--success)";
-            } else {
-                iconEl.innerText = "✕";
-                iconEl.style.background = "#fce8e6";
-                iconEl.style.color = "var(--danger)";
-            }
-            document.getElementById('popupModal').classList.add('active');
-        }
-
-        function openVoucherReport() {
-            document.getElementById('standardPopupCard').style.display = "none";
-            document.getElementById('reportPopupCard').style.display = "block";
-            
-            document.getElementById('reportDateFrom').value = "";
-            document.getElementById('reportDateTo').value = "";
-            document.getElementById('reportSubtitle').innerText = "Vouchers Analytics & Sales Report";
-            document.getElementById('countLabel').innerText = "Total Vouchers Issued";
-            document.getElementById('revenueLabel').innerText = "Total Revenue Generated";
-
-            populateUserReportTable(totalVouchersHistory);
-            document.getElementById('popupModal').classList.add('active');
-        }
-
-        function populateUserReportTable(targetDataList) {
-            let count = targetDataList.length;
-            let totalSum = 0;
-            
-            const tbody = document.getElementById('reportTableBody');
-            tbody.innerHTML = "";
-            
-            targetDataList.forEach(log => {
-                if(log) {
-                    totalSum += parseFloat(log.amount) || 0;
-                    tbody.innerHTML += `<tr>
-                        <td><strong>${log.vouchRef}</strong></td>
-                        <td>${log.time}</td>
-                        <td style="color:var(--success); font-weight:700;">Rs. ${log.amount}</td>
-                    </tr>`;
-                }
-            });
-            
-            if(count === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#999; padding:15px;">No records match the filter logic.</td></tr>`;
-            }
-
-            document.getElementById('repTotalCount').innerText = count;
-            document.getElementById('repTotalAmount').innerText = totalSum.toFixed(2);
-        }
-
-        // Custom Date Range Filters Logic Inside User Side Modal
-        function applyUserDateFilterReport() {
-            let rawFrom = document.getElementById('reportDateFrom').value;
-            let rawTo = document.getElementById('reportDateTo').value;
-
-            if(!rawFrom || !rawTo) {
-                alert("Meherbani karke donu dates select karein!");
-                return;
-            }
-
-            let startBound = new Date(rawFrom);
-            startBound.setHours(0,0,0,0);
-            let endBound = new Date(rawTo);
-            endBound.setHours(23,59,59,999);
-
-            let filteredList = totalVouchersHistory.filter(v => {
-                if(!v || !v.time) return false;
-                let datePart = v.time.split(' ')[0];
-                let segments = datePart.split('/');
-                let itemDate = new Date(segments[2], segments[1] - 1, segments[0]);
-                return itemDate >= startBound && itemDate <= endBound;
-            });
-
-            document.getElementById('reportSubtitle').innerText = `Sales Report Sheet (${rawFrom} to ${rawTo})`;
-            document.getElementById('countLabel').innerText = "Filtered Vouchers Count";
-            document.getElementById('revenueLabel').innerText = "Filtered Net Revenue";
-
-            populateUserReportTable(filteredList);
-        }
-
-        function printSystemReport() {
-            document.body.classList.add('print-report-mode');
-            window.print();
-            document.body.classList.remove('print-report-mode');
-        }
-
-        function closePopupAlert() {
-            document.getElementById('popupModal').classList.remove('active');
-        }
-
-        const dropdownPanel = document.getElementById('dropdownPanel');
-        const innerSearchBar = document.getElementById('innerSearchBar');
-        const cakeItemsList = document.getElementById('cakeItemsList');
-
-        function toggleDropdownGrid() {
-            if(dropdownPanel.style.display === "block") {
-                dropdownPanel.style.display = "none";
-            } else {
-                dropdownPanel.style.display = "block";
-                innerSearchBar.focus();
+    database.ref('da_referenceId').once('value').then((snapshot) => {
+        if (snapshot.exists()) {
+            let cloudRefId = parseInt(snapshot.val());
+            if (cloudRefId > referenceId) {
+                referenceId = cloudRefId;
+                localStorage.setItem('da_referenceId', referenceId);
+                document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
             }
         }
+    });
 
-        function buildCakeDropdownList(filterText) {
-            cakeItemsList.innerHTML = "";
-            let query = filterText.toUpperCase().trim();
-            let filtered = cakeDatabase.filter(c => c.name.includes(query));
-
-            if(filtered.length > 0) {
-                filtered.forEach(cake => {
-                    let div = document.createElement('div');
-                    div.className = "cake-option-row";
-                    div.innerText = cake.name;
-                    div.onclick = function() {
-                        selectCakeOption(cake.name, cake.defaultPrice);
-                    };
-                    cakeItemsList.appendChild(div);
-                });
-            } else {
-                let addBox = document.createElement('div');
-                addBox.className = "add-new-box";
-                addBox.innerHTML = `
-                    <p style="font-size:12px; color:var(--danger); font-weight:600; margin-bottom:5px;">Not Found in System</p>
-                    <button class="btn-inline-add" onclick="addNewCakeToSystem('${query.replace(/'/g, "\\'")}')">➕ ADD "${query}" PERMANENTLY</button>
-                `;
-                cakeItemsList.appendChild(addBox);
-            }
-        }
-
-        function selectCakeOption(name, price) {
-            activeSelectedCake = name;
-            document.getElementById('selectedLabel').innerText = name;
-            document.getElementById('rateInput').value = price;
-            dropdownPanel.style.display = "none";
-            qtyInput.focus();
-            qtyInput.select();
-        }
-
-        function addNewCakeToSystem(rawName) {
-            let cleanName = rawName.toUpperCase().trim();
-            if(!cleanName) return;
-
-            let pricePrompt = prompt(`Enter Default Price for "${cleanName}":`, "1200");
-            let price = parseFloat(pricePrompt) || 1200;
-
-            let newObj = { name: cleanName, defaultPrice: price };
-            cakeDatabase.push(newObj);
-
+    database.ref('da_cakeDatabase').once('value').then((snap) => {
+        if (snap.exists()) {
+            const raw = snap.val();
+            cakeDatabase = Array.isArray(raw) ? raw.filter(Boolean) : Object.values(raw || {}).filter(Boolean);
             localStorage.setItem('da_cakeDatabase', JSON.stringify(cakeDatabase));
-            database.ref('da_cakeDatabase').set(cakeDatabase);
-
-            selectCakeOption(cleanName, price);
-            innerSearchBar.value = "";
             buildCakeDropdownList("");
-            showPopupAlert("Cake Added!", `"${cleanName}" has been permanently saved inside system registry.`, true);
         }
+    });
 
-        function triggerCartInsertion() {
-            const item = activeSelectedCake;
-            const unit = unitTypeSelect.value; // LBS | QTY | KG
-            const qty = parseFloat(qtyInput.value) || 0;
-            const rate = parseFloat(document.getElementById('rateInput').value) || 0;
-            const total = rate * qty;
-
-            if(!item) {
-                showPopupAlert("Selection Required", "Pehle click karke product item list se cake select karein!", false);
-                return;
-            }
-            if(qty <= 0) {
-                showPopupAlert("Invalid Quantity", "Quantity / Weight 0 se zyada honi chahiye!", false);
-                return;
-            }
-
-            cartItems.push({ name: item, weight: qty, unit: unit, rate: rate, total: total });
-            recalculatePOSSums();
-
-            activeSelectedCake = "";
-            document.getElementById('selectedLabel').innerText = "SELECT CAKE ITEM";
-            document.getElementById('rateInput').value = "1000";
-            qtyInput.value = "1";
-        }
-
-        function removeCartItem(idx) {
-            cartItems.splice(idx, 1);
-            recalculatePOSSums();
-        }
-
-        function recalculatePOSSums() {
-            const tbody = document.querySelector('#cartTable tbody');
-            tbody.innerHTML = "";
-            let overall = 0;
-
-            cartItems.forEach((x, i) => {
-                const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
-                tbody.innerHTML += `<tr>
-                    <td><strong>${x.name}</strong></td>
-                    <td>${unitLabel}</td>
-                    <td>Rs. ${x.rate}</td>
-                    <td><strong>Rs. ${x.total}</strong></td>
-                    <td><button class="btn btn-danger" onclick="removeCartItem(${i})">Delete</button></td>
-                </tr>`;
-                overall += x.total;
-            });
-
-            document.getElementById('totalQty').innerText = cartItems.length;
-            document.getElementById('grandTotal').innerText = overall.toFixed(2);
-        }
-
-        function fireFinalExecution() {
-            if(cartItems.length === 0) {
-                showPopupAlert("Empty Invoice", "Bill banane ke liye cart mein items add karein!", false);
-                return;
-            }
-
-            const currentRef = "D.A-" + String(referenceId).padStart(3, '0');
-            document.getElementById('pRef').innerText = "Ref No: " + currentRef;
-
-            const now = new Date();
-            const timeStr = now.toLocaleDateString() + " " + now.toLocaleTimeString();
-            document.getElementById('pDateTime').innerText = "Date & Time: " + timeStr;
-
-            let cName = document.getElementById('custName').value;
-            let cPhone = document.getElementById('custNumber').value;
-            let cAddress = document.getElementById('custAddress').value;
-            let cMethod = document.getElementById('payMode').value;
-
-            let clientMarkup = ``;
-            if(cName) clientMarkup += `<strong>Customer Name:</strong> ${cName}<br>`;
-            if(cPhone) clientMarkup += `<strong>Contact Number:</strong> ${cPhone}<br>`;
-            if(cAddress) clientMarkup += `<strong>Delivery Address:</strong> ${cAddress}`;
-
-            document.getElementById('pCustDetails').innerHTML = clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher";
-
-            let pItemsBody = document.getElementById('pItemsBody');
-            pItemsBody.innerHTML = "";
-            cartItems.forEach(x => {
-                const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
-                pItemsBody.innerHTML += `<tr>
-                    <td><strong>${x.name}</strong></td>
-                    <td style="text-align:center;">${unitLabel}</td>
-                    <td style="text-align:center;">Rs. ${x.rate}</td>
-                    <td style="text-align:right; font-weight:bold;">Rs. ${x.total}</td>
-                </tr>`;
-            });
-
-            const finalTotal = document.getElementById('grandTotal').innerText;
-            document.getElementById('pGrandTotal').innerText = finalTotal;
-            document.getElementById('pMethod').innerText = cMethod;
-
-            window.print();
-
-            let logObj = { 
-                vouchRef: currentRef, 
-                time: timeStr, 
-                amount: finalTotal,
-                clientData: clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher",
-                itemsArray: [...cartItems],
-                paymentMethod: cMethod
-            };
-
-            totalVouchersHistory.unshift(logObj);
-            referenceId++;
-            localStorage.setItem('da_referenceId', referenceId);
+    database.ref('da_vouchersHistory').on('value', (snapshot) => {
+        if (snapshot.exists()) {
+            let cloudData = snapshot.val();
+            let parsed = Array.isArray(cloudData) ? cloudData : Object.values(cloudData);
+            let map = new Map();
+            totalVouchersHistory.forEach(item => { if (item && item.vouchRef) map.set(item.vouchRef, item); });
+            parsed.forEach(item => { if (item && item.vouchRef) map.set(item.vouchRef, item); });
+            totalVouchersHistory = Array.from(map.values()).sort((a, b) => String(b.vouchRef).localeCompare(String(a.vouchRef)));
             localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
-
-            document.getElementById('syncStatus').innerText = "🔄 Syncing with Cloud...";
-            database.ref('da_referenceId').set(referenceId);
-            database.ref('da_vouchersHistory').set(totalVouchersHistory).then(() => {
-                document.getElementById('syncStatus').innerText = "☁️ Cloud Synced & Secure";
-                document.getElementById('syncStatus').style.color = "var(--success)";
-            }).catch(e => {
-                console.error("Firebase Sync Error: ", e);
-                document.getElementById('syncStatus').innerText = "⚠️ Cloud Sync Failed";
-                document.getElementById('syncStatus').style.color = "var(--danger)";
-            });
-
-            document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
-            cartItems = [];
-            recalculatePOSSums();
             renderSystemLogs();
-
-            document.getElementById('custName').value = "";
-            document.getElementById('custNumber').value = "";
-            document.getElementById('custAddress').value = "";
-            
-            showPopupAlert("Voucher Saved", `Invoice ${currentRef} local memory aur cloud database dono mein save ho chuki hai!`, true);
+            statusEl.innerText = "☁️ Cloud Synced & Secure";
+            statusEl.style.color = "var(--success)";
+        } else {
+            statusEl.innerText = "☁️ Cloud Linked (Empty DB)";
+            statusEl.style.color = "var(--success)";
         }
+    }, (err) => {
+        console.error(err);
+        statusEl.innerText = "⚠️ Offline Mode Active";
+        statusEl.style.color = "var(--danger)";
+    });
+}
 
-        function searchAndPrintOldInvoice() {
-            let searchVal = document.getElementById('searchRefInput').value.trim().toUpperCase();
-            if(!searchVal) {
-                alert("Please enter a Reference number to search!");
-                return;
-            }
+function clockTick() {
+    const dateObj = new Date();
+    document.getElementById('liveDate').innerText = "Date: " + dateObj.toLocaleDateString() + " | " + dateObj.toLocaleTimeString();
+}
+setInterval(clockTick, 1000);
+clockTick();
 
-            let formattedSearch = searchVal;
-            if(!searchVal.startsWith("D.A-")) {
-                let digits = searchVal.replace(/\D/g, "");
-                if(digits) {
-                    formattedSearch = "D.A-" + String(digits).padStart(3, '0');
-                }
-            }
+const unitTypeSelect = document.getElementById('unitTypeSelect');
+const qtyInput = document.getElementById('qtyInput');
+const qtyInputLabel = document.getElementById('qtyInputLabel');
 
-            let record = totalVouchersHistory.find(v => v && v.vouchRef === formattedSearch);
+function updateQtyLabel() {
+    const u = unitTypeSelect.value;
+    if (u === 'LBS') qtyInputLabel.innerText = 'Pounds (LBS)';
+    else if (u === 'QTY') qtyInputLabel.innerText = 'Quantity (Pieces)';
+    else qtyInputLabel.innerText = "Kilograms (KG's)";
+}
+unitTypeSelect.addEventListener('change', updateQtyLabel);
+updateQtyLabel();
 
-            if(!record) {
-                showPopupAlert("Not Found", `Record for "${formattedSearch}" was not found!`, false);
-                return;
-            }
+function formatUnitLabel(qty, unit) {
+    const n = parseFloat(qty);
+    const q = (Number.isInteger(n) ? n : n.toFixed(2).replace(/\.00$/, ''));
+    if (unit === 'LBS') return q + ' LBS';
+    if (unit === 'QTY') return q + ' QTY';
+    if (unit === 'KG') return q + ' KG';
+    return q + ' ' + unit;
+}
 
-            document.getElementById('pRef').innerText = "Ref No: " + record.vouchRef;
-            document.getElementById('pDateTime').innerText = "Date & Time: " + record.time;
-            document.getElementById('pCustDetails').innerHTML = record.clientData;
-            document.getElementById('pGrandTotal').innerText = record.amount;
-            document.getElementById('pMethod').innerText = record.paymentMethod || "Delivery on Cash";
+function statusBadgeClass(st) {
+    st = (st || '').toLowerCase();
+    if (st.includes('cancel')) return 'badge-cancelled';
+    if (st.includes('deliver')) return 'badge-delivered';
+    if (st.includes('dispatch')) return 'badge-dispatch';
+    return 'badge-pending';
+}
 
-            let pItemsBody = document.getElementById('pItemsBody');
-            pItemsBody.innerHTML = "";
-            record.itemsArray.forEach(x => {
-                const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
-                pItemsBody.innerHTML += `<tr>
-                    <td><strong>${x.name}</strong></td>
-                    <td style="text-align:center;">${unitLabel}</td>
-                    <td style="text-align:center;">Rs. ${x.rate}</td>
-                    <td style="text-align:right; font-weight:bold;">Rs. ${x.total}</td>
-                </tr>`;
-            });
+function showPopupAlert(title, message, isSuccess = true) {
+    document.getElementById('standardPopupCard').style.display = "block";
+    document.getElementById('reportPopupCard').style.display = "none";
+    document.getElementById('popTitle').innerText = title;
+    document.getElementById('popMessage').innerText = message;
+    const iconEl = document.querySelector('#standardPopupCard .popup-icon');
+    if (isSuccess) {
+        iconEl.innerText = "✓";
+        iconEl.style.background = "#e6f4ea";
+        iconEl.style.color = "var(--success)";
+    } else {
+        iconEl.innerText = "✕";
+        iconEl.style.background = "#fce8e6";
+        iconEl.style.color = "var(--danger)";
+    }
+    document.getElementById('popupModal').classList.add('active');
+}
 
-            window.print();
-            document.getElementById('searchRefInput').value = "";
+function openVoucherReport() {
+    document.getElementById('standardPopupCard').style.display = "none";
+    document.getElementById('reportPopupCard').style.display = "block";
+    document.getElementById('reportDateFrom').value = "";
+    document.getElementById('reportDateTo').value = "";
+    document.getElementById('reportSubtitle').innerText = "Vouchers Analytics & Sales Report";
+    populateUserReportTable(totalVouchersHistory);
+    document.getElementById('popupModal').classList.add('active');
+}
+
+function showAllReports() {
+    document.getElementById('reportDateFrom').value = "";
+    document.getElementById('reportDateTo').value = "";
+    document.getElementById('reportSubtitle').innerText = "Vouchers Analytics & Sales Report (All Time)";
+    populateUserReportTable(totalVouchersHistory);
+}
+
+function parseVoucherDate(timeStr) {
+    if (!timeStr) return null;
+    try {
+        if (timeStr.includes('T') || /^\d{4}-\d{2}-\d{2}/.test(timeStr)) return new Date(timeStr);
+        const datePart = timeStr.split(' ')[0];
+        const segments = datePart.split('/');
+        if (segments.length >= 3) {
+            // DD/MM/YYYY
+            return new Date(parseInt(segments[2], 10), parseInt(segments[1], 10) - 1, parseInt(segments[0], 10));
         }
+        return new Date(timeStr);
+    } catch (e) { return null; }
+}
 
-        function renderSystemLogs() {
-            const container = document.getElementById('historyLogsBox');
-            if(totalVouchersHistory.length === 0) {
-                container.innerHTML = `<div style="padding:15px; text-align:center; font-size:12px; color:#999;">No past records logged</div>`;
-                return;
-            }
-            container.innerHTML = "";
-            totalVouchersHistory.forEach(log => {
-                if(log) {
-                    container.innerHTML += `<div class="history-item">
-                        <span><strong>${log.vouchRef}</strong> (${log.time.split(' ')[1] || ''})</span>
-                        <span style="color:var(--success); font-weight:700;">Rs. ${log.amount}</span>
-                    </div>`;
-                }
-            });
+function populateUserReportTable(targetDataList) {
+    let activeCount = 0, cancelledCount = 0, totalSum = 0;
+    const tbody = document.getElementById('reportTableBody');
+    tbody.innerHTML = "";
+
+    (targetDataList || []).forEach(log => {
+        if (!log) return;
+        const st = log.status || 'Cake Pending';
+        const isCancel = String(st).toLowerCase().includes('cancel');
+        if (isCancel) cancelledCount++;
+        else {
+            activeCount++;
+            totalSum += parseFloat(log.amount) || 0;
         }
+        const badge = statusBadgeClass(st);
+        tbody.innerHTML += `<tr>
+            <td><strong>${log.vouchRef || ''}</strong></td>
+            <td>${log.time || ''}</td>
+            <td><span class="badge ${badge}">${st}</span>${log.cancelReason ? '<div style="font-size:11px;color:#991b1b;margin-top:3px;">' + log.cancelReason + '</div>' : ''}</td>
+            <td style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">Rs. ${log.amount || '0'}${isCancel ? ' (excl.)' : ''}</td>
+        </tr>`;
+    });
 
-        // Core Listeners Initializer
-        function setupInputWatchers() {
-            innerSearchBar.addEventListener('input', function() {
-                buildCakeDropdownList(this.value);
-            });
+    if (!targetDataList || !targetDataList.length) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#999;padding:15px;">No records match the filter.</td></tr>`;
+    }
 
-            document.addEventListener('click', function(e) {
-                if(!e.target.closest('.search-container')) {
-                    dropdownPanel.style.display = "none";
-                }
-            });
+    document.getElementById('repActiveCount').innerText = activeCount;
+    document.getElementById('repCancelledCount').innerText = cancelledCount;
+    document.getElementById('repTotalCount').innerText = (targetDataList || []).length;
+    document.getElementById('repTotalAmount').innerText = totalSum.toFixed(2);
+}
 
-            window.addEventListener('keydown', (e) => {
-                if((e.ctrlKey || e.metaKey) && e.key === 's') {
-                    e.preventDefault();
-                    fireFinalExecution();
-                }
-            });
+function applyUserDateFilterReport() {
+    let rawFrom = document.getElementById('reportDateFrom').value;
+    let rawTo = document.getElementById('reportDateTo').value;
+    if (!rawFrom || !rawTo) {
+        alert("Meherbani karke dono dates select karein!");
+        return;
+    }
+    let startBound = new Date(rawFrom); startBound.setHours(0, 0, 0, 0);
+    let endBound = new Date(rawTo); endBound.setHours(23, 59, 59, 999);
 
-            document.getElementById('searchRefInput').addEventListener('keydown', function(e) {
-                if(e.key === 'Enter') {
-                    searchAndPrintOldInvoice();
-                }
-            });
+    let filteredList = totalVouchersHistory.filter(v => {
+        if (!v) return false;
+        // Prefer ISO ts if present
+        let itemDate = v.ts ? new Date(v.ts) : parseVoucherDate(v.time);
+        if (!itemDate || isNaN(itemDate.getTime())) return false;
+        return itemDate >= startBound && itemDate <= endBound;
+    });
+
+    document.getElementById('reportSubtitle').innerText = `Sales Report (${rawFrom} to ${rawTo})`;
+    populateUserReportTable(filteredList);
+}
+
+function printSystemReport() {
+    document.body.classList.add('print-report-mode');
+    window.print();
+    document.body.classList.remove('print-report-mode');
+}
+
+function closePopupAlert() {
+    document.getElementById('popupModal').classList.remove('active');
+}
+
+/* ===== Cancel request flow ===== */
+function requestCancelVoucher() {
+    const sel = document.getElementById('cancelVoucherSelect');
+    sel.innerHTML = '';
+    const active = totalVouchersHistory.filter(v => v && !String(v.status || '').toLowerCase().includes('cancel'));
+    if (!active.length) {
+        showPopupAlert("No Vouchers", "Cancel karne ke liye koi active voucher nahi.", false);
+        return;
+    }
+    active.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v.vouchRef;
+        opt.textContent = v.vouchRef + ' · Rs.' + v.amount + ' · ' + (v.status || 'Pending');
+        sel.appendChild(opt);
+    });
+    document.getElementById('cancelReasonInput').value = '';
+    document.getElementById('cancelModal').classList.add('active');
+}
+
+function closeCancelModal() {
+    document.getElementById('cancelModal').classList.remove('active');
+}
+
+function submitCancelRequest() {
+    const ref = document.getElementById('cancelVoucherSelect').value;
+    const reason = (document.getElementById('cancelReasonInput').value || '').trim();
+    if (!ref) return alert('Voucher select karein');
+    if (!reason) return alert('Cancel reason likhna zaroori hai');
+
+    const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
+    if (idx < 0) return alert('Voucher not found');
+
+    totalVouchersHistory[idx] = {
+        ...totalVouchersHistory[idx],
+        status: 'Cancelled',
+        cancelReason: reason,
+        cancelRequestedAt: Date.now(),
+        cancelApproved: false
+    };
+
+    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
+
+    // Admin request queue
+    const req = {
+        vouchRef: ref,
+        reason: reason,
+        amount: totalVouchersHistory[idx].amount,
+        time: totalVouchersHistory[idx].time,
+        ts: Date.now(),
+        status: 'pending_review'
+    };
+
+    database.ref('da_cancelRequests').push(req);
+    database.ref('da_vouchersHistory').set(totalVouchersHistory).then(() => {
+        closeCancelModal();
+        renderSystemLogs();
+        showPopupAlert("Cancel Request Sent", `Voucher ${ref} cancel request admin ko bhej di gayi.\nReason: ${reason}\nAmount revenue se exclude ho chuka hai.`, true);
+    }).catch(() => {
+        closeCancelModal();
+        renderSystemLogs();
+        showPopupAlert("Saved Locally", "Local save ho gaya. Cloud sync baad mein try karein.", false);
+    });
+}
+
+/* Quick status change from history */
+function changeVoucherStatus(ref, newStatus) {
+    const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
+    if (idx < 0) return;
+    if (String(totalVouchersHistory[idx].status || '').toLowerCase().includes('cancel')) {
+        alert('Cancelled voucher ka status change nahi ho sakta. Admin se contact karein.');
+        return;
+    }
+    totalVouchersHistory[idx].status = newStatus;
+    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
+    database.ref('da_vouchersHistory').set(totalVouchersHistory);
+    renderSystemLogs();
+}
+
+const dropdownPanel = document.getElementById('dropdownPanel');
+const innerSearchBar = document.getElementById('innerSearchBar');
+const cakeItemsList = document.getElementById('cakeItemsList');
+
+function toggleDropdownGrid() {
+    if (dropdownPanel.style.display === "block") dropdownPanel.style.display = "none";
+    else {
+        dropdownPanel.style.display = "block";
+        innerSearchBar.focus();
+    }
+}
+
+function buildCakeDropdownList(filterText) {
+    cakeItemsList.innerHTML = "";
+    let query = filterText.toUpperCase().trim();
+    let filtered = cakeDatabase.filter(c => (c.name || '').includes(query));
+
+    if (filtered.length > 0) {
+        filtered.forEach(cake => {
+            let div = document.createElement('div');
+            div.className = "cake-option-row";
+            div.innerText = cake.name;
+            div.onclick = function() { selectCakeOption(cake.name, cake.defaultPrice); };
+            cakeItemsList.appendChild(div);
+        });
+    } else {
+        let addBox = document.createElement('div');
+        addBox.className = "add-new-box";
+        addBox.innerHTML = `
+            <p style="font-size:12px;color:var(--danger);font-weight:600;margin-bottom:5px;">Not Found in System</p>
+            <button class="btn-inline-add" type="button" onclick="addNewCakeToSystem('${query.replace(/'/g, "\\'")}')">➕ ADD "${query}" PERMANENTLY</button>
+        `;
+        cakeItemsList.appendChild(addBox);
+    }
+}
+
+function selectCakeOption(name, price) {
+    activeSelectedCake = name;
+    document.getElementById('selectedLabel').innerText = name;
+    document.getElementById('rateInput').value = price;
+    dropdownPanel.style.display = "none";
+    qtyInput.focus();
+    qtyInput.select();
+}
+
+function addNewCakeToSystem(rawName) {
+    let cleanName = rawName.toUpperCase().trim();
+    if (!cleanName) return;
+    let pricePrompt = prompt(`Enter Default Price for "${cleanName}":`, "1200");
+    let price = parseFloat(pricePrompt) || 1200;
+    let newObj = { name: cleanName, defaultPrice: price };
+    cakeDatabase.push(newObj);
+    localStorage.setItem('da_cakeDatabase', JSON.stringify(cakeDatabase));
+    database.ref('da_cakeDatabase').set(cakeDatabase);
+    selectCakeOption(cleanName, price);
+    innerSearchBar.value = "";
+    buildCakeDropdownList("");
+    showPopupAlert("Cake Added!", `"${cleanName}" permanently saved.`, true);
+}
+
+function triggerCartInsertion() {
+    const item = activeSelectedCake;
+    const unit = unitTypeSelect.value;
+    const qty = parseFloat(qtyInput.value) || 0;
+    const rate = parseFloat(document.getElementById('rateInput').value) || 0;
+    const total = rate * qty;
+
+    if (!item) {
+        showPopupAlert("Selection Required", "Pehle product item list se cake select karein!", false);
+        return;
+    }
+    if (qty <= 0) {
+        showPopupAlert("Invalid Quantity", "Quantity / Weight 0 se zyada honi chahiye!", false);
+        return;
+    }
+
+    cartItems.push({ name: item, weight: qty, unit: unit, rate: rate, total: total });
+    recalculatePOSSums();
+    activeSelectedCake = "";
+    document.getElementById('selectedLabel').innerText = "SELECT CAKE ITEM";
+    document.getElementById('rateInput').value = "1000";
+    qtyInput.value = "1";
+    document.getElementById('selectTrigger').focus();
+}
+
+function removeCartItem(idx) {
+    cartItems.splice(idx, 1);
+    recalculatePOSSums();
+}
+
+function editCartItem(idx) {
+    const x = cartItems[idx];
+    if (!x) return;
+    const newQty = prompt('Quantity / Weight for ' + x.name + ':', x.weight);
+    if (newQty === null) return;
+    const newRate = prompt('Rate (Rs.) for ' + x.name + ':', x.rate);
+    if (newRate === null) return;
+    const qty = parseFloat(newQty) || 0;
+    const rate = parseFloat(newRate) || 0;
+    if (qty <= 0) {
+        showPopupAlert('Invalid', 'Quantity 0 se zyada honi chahiye', false);
+        return;
+    }
+    cartItems[idx].weight = qty;
+    cartItems[idx].rate = rate;
+    cartItems[idx].total = qty * rate;
+    recalculatePOSSums();
+}
+
+function recalculatePOSSums() {
+    const tbody = document.querySelector('#cartTable tbody');
+    tbody.innerHTML = "";
+    let overall = 0;
+    cartItems.forEach((x, i) => {
+        const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
+        tbody.innerHTML += `<tr>
+            <td><strong>${x.name}</strong></td>
+            <td>${unitLabel}</td>
+            <td>Rs. ${x.rate}</td>
+            <td><strong>Rs. ${x.total}</strong></td>
+            <td style="white-space:nowrap;">
+                <button class="btn btn-add" type="button" style="padding:6px 10px;font-size:12px;margin-right:4px;" onclick="editCartItem(${i})">Edit</button>
+                <button class="btn btn-danger" type="button" onclick="removeCartItem(${i})">Delete</button>
+            </td>
+        </tr>`;
+        overall += x.total;
+    });
+    document.getElementById('totalQty').innerText = cartItems.length;
+    document.getElementById('grandTotal').innerText = overall.toFixed(2);
+}
+
+function fireFinalExecution() {
+    if (cartItems.length === 0) {
+        showPopupAlert("Empty Invoice", "Bill banane ke liye cart mein items add karein!", false);
+        return;
+    }
+
+    const currentRef = "D.A-" + String(referenceId).padStart(3, '0');
+    document.getElementById('pRef').innerText = "Ref No: " + currentRef;
+
+    const now = new Date();
+    const timeStr = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+    const isoTs = now.getTime();
+    document.getElementById('pDateTime').innerText = "Date & Time: " + timeStr;
+
+    let cName = document.getElementById('custName').value;
+    let cPhone = document.getElementById('custNumber').value;
+    let cAddress = document.getElementById('custAddress').value;
+    let cMethod = document.getElementById('payMode').value;
+    let status = document.getElementById('orderStatus').value || 'Cake Pending';
+
+    let clientMarkup = ``;
+    if (cName) clientMarkup += `<strong>Customer Name:</strong> ${cName}<br>`;
+    if (cPhone) clientMarkup += `<strong>Contact Number:</strong> ${cPhone}<br>`;
+    if (cAddress) clientMarkup += `<strong>Delivery Address:</strong> ${cAddress}`;
+
+    document.getElementById('pCustDetails').innerHTML = clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher";
+    document.getElementById('pStatusLine').innerText = "Status: " + status;
+
+    let pItemsBody = document.getElementById('pItemsBody');
+    pItemsBody.innerHTML = "";
+    cartItems.forEach(x => {
+        const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
+        pItemsBody.innerHTML += `<tr>
+            <td><strong>${x.name}</strong></td>
+            <td style="text-align:center;">${unitLabel}</td>
+            <td style="text-align:center;">Rs. ${x.rate}</td>
+            <td style="text-align:right;font-weight:bold;">Rs. ${x.total}</td>
+        </tr>`;
+    });
+
+    const finalTotal = document.getElementById('grandTotal').innerText;
+    document.getElementById('pGrandTotal').innerText = finalTotal;
+    document.getElementById('pMethod').innerText = cMethod;
+
+    window.print();
+
+    let logObj = {
+        vouchRef: currentRef,
+        time: timeStr,
+        ts: isoTs,
+        amount: finalTotal,
+        clientData: clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher",
+        itemsArray: [...cartItems],
+        paymentMethod: cMethod,
+        status: status,
+        operatorName: (document.getElementById('operatorName') && document.getElementById('operatorName').value.trim()) || localStorage.getItem('da_operator') || 'Counter',
+        createdBy: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'PC'
+    };
+
+    totalVouchersHistory.unshift(logObj);
+    referenceId++;
+    localStorage.setItem('da_referenceId', referenceId);
+    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
+
+    document.getElementById('syncStatus').innerText = "🔄 Syncing with Cloud...";
+    database.ref('da_referenceId').set(referenceId);
+    database.ref('da_vouchersHistory').set(totalVouchersHistory).then(() => {
+        document.getElementById('syncStatus').innerText = "☁️ Cloud Synced & Secure";
+        document.getElementById('syncStatus').style.color = "var(--success)";
+    }).catch(e => {
+        console.error(e);
+        document.getElementById('syncStatus').innerText = "⚠️ Cloud Sync Failed";
+        document.getElementById('syncStatus').style.color = "var(--danger)";
+    });
+
+    document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
+    cartItems = [];
+    recalculatePOSSums();
+    renderSystemLogs();
+    document.getElementById('custName').value = "";
+    document.getElementById('custNumber').value = "";
+    document.getElementById('custAddress').value = "";
+    document.getElementById('orderStatus').value = "Cake Pending";
+    showPopupAlert("Voucher Saved", `Invoice ${currentRef} saved (Status: ${status})`, true);
+}
+
+function searchAndPrintOldInvoice() {
+    let searchVal = document.getElementById('searchRefInput').value.trim().toUpperCase();
+    if (!searchVal) { alert("Please enter a Reference number!"); return; }
+    let formattedSearch = searchVal;
+    if (!searchVal.startsWith("D.A-")) {
+        let digits = searchVal.replace(/\D/g, "");
+        if (digits) formattedSearch = "D.A-" + String(digits).padStart(3, '0');
+    }
+    let record = totalVouchersHistory.find(v => v && v.vouchRef === formattedSearch);
+    if (!record) {
+        showPopupAlert("Not Found", `Record for "${formattedSearch}" not found!`, false);
+        return;
+    }
+    document.getElementById('pRef').innerText = "Ref No: " + record.vouchRef;
+    document.getElementById('pDateTime').innerText = "Date & Time: " + record.time;
+    document.getElementById('pCustDetails').innerHTML = record.clientData;
+    document.getElementById('pStatusLine').innerText = "Status: " + (record.status || 'Cake Pending');
+    document.getElementById('pGrandTotal').innerText = record.amount;
+    document.getElementById('pMethod').innerText = record.paymentMethod || "Delivery on Cash";
+    let pItemsBody = document.getElementById('pItemsBody');
+    pItemsBody.innerHTML = "";
+    (record.itemsArray || []).forEach(x => {
+        const unitLabel = formatUnitLabel(x.weight, x.unit || 'LBS');
+        pItemsBody.innerHTML += `<tr>
+            <td><strong>${x.name}</strong></td>
+            <td style="text-align:center;">${unitLabel}</td>
+            <td style="text-align:center;">Rs. ${x.rate}</td>
+            <td style="text-align:right;font-weight:bold;">Rs. ${x.total}</td>
+        </tr>`;
+    });
+    window.print();
+    document.getElementById('searchRefInput').value = "";
+}
+
+function renderSystemLogs() {
+    const container = document.getElementById('historyLogsBox');
+    if (!totalVouchersHistory.length) {
+        container.innerHTML = `<div style="padding:15px;text-align:center;font-size:12px;color:#999;">No past records logged</div>`;
+        return;
+    }
+    container.innerHTML = "";
+    totalVouchersHistory.slice(0, 30).forEach(log => {
+        if (!log) return;
+        const st = log.status || 'Cake Pending';
+        const badge = statusBadgeClass(st);
+        const isCancel = String(st).toLowerCase().includes('cancel');
+        container.innerHTML += `<div class="history-item">
+            <span>
+                <strong>${log.vouchRef}</strong>
+                <span class="badge ${badge}" style="margin-left:4px;">${st}</span>
+                ${isCancel && log.cancelReason ? '<div style="font-size:10px;color:#991b1b;">' + log.cancelReason + '</div>' : ''}
+            </span>
+            <span style="display:flex;align-items:center;gap:6px;">
+                <span style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">Rs. ${log.amount}</span>
+                ${!isCancel ? `<select class="status-select" onchange="changeVoucherStatus('${log.vouchRef}', this.value)" onclick="event.stopPropagation()">
+                    <option value="Cake Pending"${st==='Cake Pending'?' selected':''}>Cake Pending</option>
+                    <option value="Dispatch"${st==='Dispatch'?' selected':''}>Dispatch</option>
+                    <option value="Delivered"${st==='Delivered'?' selected':''}>Delivered</option>
+                </select>` : ''}
+            </span>
+        </div>`;
+    });
+}
+
+/* Keyboard navigation: Enter → next field */
+function setupKeyboardNav() {
+    const order = ['cake-search', 'unit', 'qty', 'rate', 'cust-name', 'cust-phone', 'pay', 'status', 'operator', 'address'];
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        const el = e.target;
+        if (!el.classList.contains('kb-field') && el.id !== 'innerSearchBar') return;
+        // If in cake search and results exist, don't block selection
+        if (el.id === 'innerSearchBar') return;
+        e.preventDefault();
+        const kb = el.getAttribute('data-kb');
+        const idx = order.indexOf(kb);
+        if (kb === 'rate') {
+            triggerCartInsertion();
+            return;
         }
-    </script>
+        if (kb === 'address') {
+            fireFinalExecution();
+            return;
+        }
+        if (idx >= 0 && idx < order.length - 1) {
+            const next = document.querySelector('[data-kb="' + order[idx + 1] + '"]');
+            if (next) { next.focus(); if (next.select) try { next.select(); } catch(e){} }
+        }
+    });
+
+    // Select trigger: Enter opens dropdown
+    document.getElementById('selectTrigger').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleDropdownGrid();
+        }
+    });
+}
+
+function setupInputWatchers() {
+    innerSearchBar.addEventListener('input', function() { buildCakeDropdownList(this.value); });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) dropdownPanel.style.display = "none";
+    });
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            fireFinalExecution();
+        }
+    });
+    document.getElementById('searchRefInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchAndPrintOldInvoice();
+    });
+}
+</script>
 </body>
-  </html>
+</html>

@@ -497,14 +497,16 @@
     </div>
 
     <div id="printInvoice" class="print-invoice-container">
-        <div class="print-header">
+        <div class="print-header" style="position:relative;">
             <h1>DOUGH ART</h1>
             <div class="print-subtitle">Bill / Retail Bill</div>
+            <div id="pCancelledCorner" style="display:none;position:absolute;top:0;right:0;border:3px solid #dc2626;color:#dc2626;font-weight:900;font-size:16px;padding:6px 12px;text-transform:uppercase;letter-spacing:1px;transform:rotate(-6deg);">CANCELLED VOUCHER</div>
             <div class="print-meta-grid">
                 <span id="pRef">Ref No: D.A-001</span>
                 <span id="pDateTime">Date & Time: --/--/----</span>
             </div>
         </div>
+        <div id="pCancelledBanner" style="display:none;text-align:center;border:2px solid #dc2626;background:#fef2f2;color:#991b1b;font-weight:800;font-size:18px;padding:10px;margin:10px 0;text-transform:uppercase;letter-spacing:2px;">⚠ THIS VOUCHER IS CANCELLED — NOT VALID FOR DELIVERY / PAYMENT</div>
         <div id="pCustDetails" class="print-customer-box"></div>
         <div id="pStatusLine" style="font-size:13px;font-weight:700;margin-bottom:10px;"></div>
         <table class="print-table">
@@ -520,7 +522,8 @@
         </table>
         <div class="print-totals-box">
             <div>Payment Mode: <span id="pMethod" style="font-weight:bold;">Delivery on Cash</span></div>
-            <div class="print-grand-amount">Grand Total: Rs. <span id="pGrandTotal">0.00</span></div>
+            <div class="print-grand-amount" id="pGrandTotalWrap">Grand Total: Rs. <span id="pGrandTotal">0.00</span></div>
+            <div id="pCancelledTotalNote" style="display:none;color:#dc2626;font-weight:900;font-size:16px;margin-top:8px;">TOTAL: CANCELLED — VOUCHER VOID</div>
         </div>
         <div class="print-signature-area">
             <div class="signature-line-item">Checked By:<span></span></div>
@@ -1023,6 +1026,8 @@ function fireFinalExecution() {
     const finalTotal = document.getElementById('grandTotal').innerText;
     document.getElementById('pGrandTotal').innerText = finalTotal;
     document.getElementById('pMethod').innerText = cMethod;
+    // New bill is never cancelled at print time
+    setPrintCancelledUI(false, finalTotal, '');
 
     window.print();
 
@@ -1066,6 +1071,33 @@ function fireFinalExecution() {
     showPopupAlert("Voucher Saved", `Invoice ${currentRef} saved (Status: ${status})`, true);
 }
 
+function setPrintCancelledUI(isCancel, amount, reason) {
+    const corner = document.getElementById('pCancelledCorner');
+    const banner = document.getElementById('pCancelledBanner');
+    const totalNote = document.getElementById('pCancelledTotalNote');
+    const grandWrap = document.getElementById('pGrandTotalWrap');
+    if (isCancel) {
+        if (corner) corner.style.display = 'block';
+        if (banner) {
+            banner.style.display = 'block';
+            banner.innerText = reason
+                ? ('⚠ CANCELLED VOUCHER — ' + reason)
+                : '⚠ THIS VOUCHER IS CANCELLED — NOT VALID FOR DELIVERY / PAYMENT';
+        }
+        if (totalNote) {
+            totalNote.style.display = 'block';
+            totalNote.innerText = 'TOTAL: CANCELLED — VOUCHER VOID (was Rs. ' + (amount || '0') + ')';
+        }
+        if (grandWrap) grandWrap.style.textDecoration = 'line-through';
+        document.getElementById('pGrandTotal').innerText = 'CANCELLED';
+    } else {
+        if (corner) corner.style.display = 'none';
+        if (banner) banner.style.display = 'none';
+        if (totalNote) totalNote.style.display = 'none';
+        if (grandWrap) grandWrap.style.textDecoration = 'none';
+    }
+}
+
 function searchAndPrintOldInvoice() {
     let searchVal = document.getElementById('searchRefInput').value.trim().toUpperCase();
     if (!searchVal) { alert("Please enter a Reference number!"); return; }
@@ -1079,12 +1111,15 @@ function searchAndPrintOldInvoice() {
         showPopupAlert("Not Found", `Record for "${formattedSearch}" not found!`, false);
         return;
     }
+    const isCancel = String(record.status || '').toLowerCase().includes('cancel');
     document.getElementById('pRef').innerText = "Ref No: " + record.vouchRef;
     document.getElementById('pDateTime').innerText = "Date & Time: " + record.time;
     document.getElementById('pCustDetails').innerHTML = record.clientData;
-    document.getElementById('pStatusLine').innerText = "Status: " + (record.status || 'Cake Pending');
-    document.getElementById('pGrandTotal').innerText = record.amount;
+    document.getElementById('pStatusLine').innerText = "Status: " + (record.status || 'Cake Pending') +
+        (isCancel && record.cancelReason ? ' — ' + record.cancelReason : '');
     document.getElementById('pMethod').innerText = record.paymentMethod || "Delivery on Cash";
+    document.getElementById('pGrandTotal').innerText = record.amount;
+    setPrintCancelledUI(isCancel, record.amount, record.cancelReason || '');
     let pItemsBody = document.getElementById('pItemsBody');
     pItemsBody.innerHTML = "";
     (record.itemsArray || []).forEach(x => {
@@ -1112,19 +1147,15 @@ function renderSystemLogs() {
         const st = log.status || 'Cake Pending';
         const badge = statusBadgeClass(st);
         const isCancel = String(st).toLowerCase().includes('cancel');
+        // Status locked after save — only admin can change
         container.innerHTML += `<div class="history-item">
             <span>
                 <strong>${log.vouchRef}</strong>
                 <span class="badge ${badge}" style="margin-left:4px;">${st}</span>
                 ${isCancel && log.cancelReason ? '<div style="font-size:10px;color:#991b1b;">' + log.cancelReason + '</div>' : ''}
             </span>
-            <span style="display:flex;align-items:center;gap:6px;">
-                <span style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">Rs. ${log.amount}</span>
-                ${!isCancel ? `<select class="status-select" onchange="changeVoucherStatus('${log.vouchRef}', this.value)" onclick="event.stopPropagation()">
-                    <option value="Cake Pending"${st==='Cake Pending'?' selected':''}>Cake Pending</option>
-                    <option value="Dispatch"${st==='Dispatch'?' selected':''}>Dispatch</option>
-                    <option value="Delivered"${st==='Delivered'?' selected':''}>Delivered</option>
-                </select>` : ''}
+            <span style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">
+                ${isCancel ? 'CANCELLED' : ('Rs. ' + log.amount)}
             </span>
         </div>`;
     });

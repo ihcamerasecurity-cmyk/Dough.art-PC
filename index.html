@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dough Art - Enterprise Sale POS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Dough Art POS — V9.1</title>
     <style>
         :root {
             --primary: #4a2c11;
+            --primary-dark: #271404;
             --primary-light: #fdfaf7;
             --accent: #c13584;
             --gray-border: #cbd5e1;
@@ -18,205 +19,283 @@
         }
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; }
         body {
-            background-color: #f1f5f9; color: var(--text-dark); padding: 20px;
+            background: #f1f5f9; color: var(--text-dark);
             min-height: 100vh; display: flex; flex-direction: column;
+            font-size: 13px;
         }
         .dev-top-bar {
-            text-align: center; background: #271404; color: #f5d0a9; font-size: 13px;
-            font-weight: 700; padding: 6px; letter-spacing: 1.5px; border-radius: 6px 6px 0 0;
+            text-align: center; background: var(--primary-dark); color: #f5d0a9;
+            font-size: 11px; font-weight: 700; padding: 4px; letter-spacing: 1px;
             text-transform: uppercase;
         }
+        /* LOGIN */
+        .login-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(160deg, #271404 0%, #4a2c11 40%, #633b17 100%);
+            overflow: hidden;
+        }
+        .login-screen.hidden { display: none !important; }
+        .login-bg-blur {
+            position: absolute; inset: 0;
+            background: url('https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg') center/cover no-repeat;
+            filter: blur(18px) brightness(0.35); transform: scale(1.1);
+        }
+        .login-card {
+            position: relative; background: rgba(255,255,255,0.97); border-radius: 16px;
+            padding: 28px 24px; width: min(380px, 92vw); text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+        }
+        .login-logo {
+            width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+            border: 3px solid var(--primary); margin: 0 auto 12px;
+            box-shadow: 0 4px 12px rgba(74,44,17,0.3);
+        }
+        .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .login-card h2 { font-size: 22px; color: var(--primary); margin-bottom: 2px; font-weight: 800; }
+        .login-card .ver { font-size: 11px; color: #94a3b8; margin-bottom: 16px; letter-spacing: 1px; }
+        .login-card input {
+            width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray-border);
+            border-radius: 8px; font-size: 14px; margin-bottom: 10px; font-weight: 600;
+        }
+        .login-card .btn-login {
+            width: 100%; padding: 12px; background: var(--primary); color: #fff;
+            border: none; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer;
+        }
+        .login-card .btn-login:hover { background: #36200c; }
+        .login-error { color: var(--danger); font-size: 12px; margin-top: 8px; min-height: 18px; }
+        .login-footer { margin-top: 18px; font-size: 11px; color: #64748b; }
+        .login-footer a { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+        /* APP SHELL */
+        .app-shell { display: none; flex-direction: column; flex: 1; min-height: 0; }
+        .app-shell.visible { display: flex; }
         header {
             background: linear-gradient(135deg, var(--primary), #633b17); color: white;
-            padding: 15px 25px; border-radius: 0 0 8px 8px; display: flex;
-            justify-content: space-between; align-items: center; margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); flex-wrap: wrap; gap: 10px;
+            padding: 8px 14px; display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        header h1 { font-size: 26px; font-weight: 800; letter-spacing: 1.5px; }
-        .header-center-buttons { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .btn-report-toggle {
-            background: #f5d0a9; color: var(--primary); border: none; padding: 8px 15px;
-            font-size: 13px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
+        header h1 { font-size: 18px; font-weight: 800; letter-spacing: 1px; }
+        .header-center-buttons { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .btn-header {
+            background: #f5d0a9; color: var(--primary); border: none; padding: 5px 10px;
+            font-size: 11px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
         }
-        .btn-report-toggle:hover { background: #e7bd93; }
-        .search-old-ref-box {
-            display: flex; gap: 6px; align-items: center; background: rgba(255,255,255,0.15);
-            padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);
+        .btn-header.accent { background: var(--accent); color: #fff; }
+        .btn-header.ghost { background: rgba(255,255,255,0.15); color: #fff; }
+        .ref-badge { background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+        .sync-badge { font-size: 10px; color: #86efac; font-weight: bold; }
+        .user-info-bar {
+            background: #fff; border-bottom: 1px solid #e2e8f0; padding: 4px 14px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;
         }
-        .search-old-ref-box input {
-            background: white; color: var(--text-dark); border: none; padding: 6px 10px;
-            font-size: 13px; border-radius: 4px; width: 140px; font-weight: 600;
+
+        /* VIEWS */
+        .view { display: none; flex: 1; overflow: auto; }
+        .view.active { display: block; }
+
+        /* DASHBOARD */
+        .dash-wrap { padding: 12px; max-width: 1100px; margin: 0 auto; }
+        .dash-stats {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;
         }
-        .btn-search-old {
-            background: var(--accent); color: white; border: none; padding: 6px 12px;
-            font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase;
+        .dash-stat {
+            background: #fff; border-radius: 8px; padding: 14px; text-align: center;
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
-        .ref-badge {
-            background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 4px;
-            font-size: 14px; font-weight: 700;
+        .dash-stat .num { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .dash-stat .lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 3px; }
+        .dash-actions {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;
         }
-        .workspace { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; flex: 1; }
+        .dash-action-btn {
+            background: var(--primary); color: #fff; border: none; border-radius: 10px;
+            padding: 16px 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            box-shadow: 0 4px 10px rgba(74,44,17,0.18);
+        }
+        .dash-action-btn:hover { background: #36200c; }
+        .dash-action-btn.secondary { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); box-shadow: none; }
+        .dash-action-btn .ico { font-size: 22px; }
+        .dash-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dash-card {
+            background: #fff; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .dash-card h3 {
+            font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700;
+            color: var(--primary); border-bottom: 1.5px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 10px;
+        }
+        .dash-list { max-height: 280px; overflow-y: auto; }
+        .dash-row {
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+            padding: 8px 6px; border-bottom: 1px solid #f1f5f9; font-size: 12px;
+        }
+        .dash-row:last-child { border-bottom: none; }
+        .status-select-sm {
+            padding: 4px 6px; border-radius: 4px; border: 1px solid var(--gray-border);
+            font-size: 11px; font-weight: 600;
+        }
+        .btn-sm {
+            padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+            border: none; cursor: pointer;
+        }
+        .btn-sm-primary { background: var(--primary); color: #fff; }
+        .btn-sm-info { background: var(--info); color: #fff; }
+        .empty-hint { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; }
+
+        /* POS WORKSPACE */
+        .workspace { display: grid; grid-template-columns: 1.7fr 1fr; gap: 12px; padding: 10px; }
         .panel {
-            background: white; border-radius: 8px; padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column;
+            background: white; border-radius: 6px; padding: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column;
         }
         .section-title {
-            font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;
-            color: var(--primary); border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700;
+            color: var(--primary); border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; margin-bottom: 10px;
         }
-        .search-container { position: relative; }
+        .entry-row {
+            display: grid; grid-template-columns: 2fr 0.9fr 0.9fr 0.9fr auto; gap: 8px;
+            margin-bottom: 12px; align-items: flex-end;
+        }
+        .customer-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-size: 10px; font-weight: 600; margin-bottom: 3px; color: #64748b; }
+        input, select {
+            padding: 7px 10px; border: 1.5px solid var(--gray-border); border-radius: 5px;
+            font-size: 13px; outline: none;
+        }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(74,44,17,0.12); }
         .custom-select-box {
-            padding: 10px 14px; border: 1.5px solid var(--gray-border); border-radius: 6px;
-            font-size: 14px; background: #fff; cursor: pointer; display: flex;
+            padding: 7px 10px; border: 1.5px solid var(--gray-border); border-radius: 5px;
+            font-size: 12px; background: #fff; cursor: pointer; display: flex;
             justify-content: space-between; align-items: center; font-weight: 600;
         }
         .dropdown-panel {
             position: absolute; top: 100%; left: 0; right: 0; background: white;
-            border: 1px solid var(--gray-border); border-radius: 6px; margin-top: 5px;
-            max-height: 280px; overflow-y: auto; z-index: 1000;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: none; padding: 10px;
+            border: 1px solid var(--gray-border); border-radius: 5px; margin-top: 3px;
+            max-height: 220px; overflow-y: auto; z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); display: none; padding: 8px;
         }
-        .search-bar-inside {
-            width: 100%; padding: 8px 12px; border: 1px solid var(--gray-border);
-            border-radius: 4px; margin-bottom: 10px; font-size: 13px;
-        }
-        .cake-list-items { max-height: 180px; overflow-y: auto; }
+        .search-container { position: relative; }
+        .search-bar-inside { width: 100%; padding: 6px 10px; border: 1px solid var(--gray-border); border-radius: 4px; margin-bottom: 6px; font-size: 12px; }
+        .cake-list-items { max-height: 150px; overflow-y: auto; }
         .cake-option-row {
-            padding: 10px; cursor: pointer; font-size: 13.5px; font-weight: 700;
+            padding: 7px 8px; cursor: pointer; font-size: 12px; font-weight: 700;
             border-radius: 4px; border-bottom: 1px solid #f1f5f9; text-transform: uppercase;
         }
         .cake-option-row:hover { background: var(--primary-light); color: var(--primary); }
-        .add-new-box { padding: 12px; text-align: center; background: #fff5f5; border-radius: 4px; margin-top: 5px; }
-        .entry-row {
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 12px;
-            margin-bottom: 20px; align-items: flex-end;
-        }
-        .customer-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        .form-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #64748b; }
-        input, select {
-            padding: 10px 14px; border: 1.5px solid var(--gray-border); border-radius: 6px;
-            font-size: 14px; outline: none;
-        }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,44,17,0.15); }
+        .add-new-box { padding: 8px; text-align: center; background: #fff5f5; border-radius: 4px; margin-top: 4px; }
         .btn {
-            padding: 11px 20px; border-radius: 6px; font-size: 14px; font-weight: 700;
-            cursor: pointer; border: none; transition: all 0.2s;
+            padding: 8px 12px; border-radius: 5px; font-size: 12px; font-weight: 700;
+            cursor: pointer; border: none; transition: all 0.15s;
         }
-        .btn-add { background-color: var(--success); color: white; }
-        .btn-add:hover { background-color: #15803d; }
-        .btn-danger { background-color: var(--danger); color: white; padding: 6px 12px; font-size: 12px; }
+        .btn-add { background: var(--success); color: white; }
+        .btn-add:hover { background: #15803d; }
+        .btn-danger { background: var(--danger); color: white; padding: 4px 8px; font-size: 11px; }
         .btn-action {
-            background: var(--primary); color: white; padding: 14px; font-size: 16px;
-            box-shadow: 0 4px 6px rgba(74,44,17,0.2); width: 100%;
+            background: var(--primary); color: white; padding: 10px; font-size: 14px;
+            box-shadow: 0 3px 6px rgba(74,44,17,0.2); width: 100%;
         }
         .btn-action:hover { background: #36200c; }
         .btn-cancel-req {
-            background: #fff; border: 2px solid var(--danger); color: var(--danger);
-            padding: 12px; font-size: 14px; width: 100%; margin-top: 10px; font-weight: 700;
+            background: #fff; border: 1.5px solid var(--danger); color: var(--danger);
+            padding: 8px; font-size: 12px; width: 100%; margin-top: 6px; font-weight: 700;
         }
-        .btn-cancel-req:hover { background: #fef2f2; }
         .btn-inline-add {
-            background-color: var(--accent); color: white; font-size: 12px;
-            padding: 6px 12px; border-radius: 4px; margin-top: 5px; font-weight: bold;
+            background: var(--accent); color: white; font-size: 11px;
+            padding: 5px 10px; border-radius: 4px; margin-top: 4px; font-weight: bold; border: none; cursor: pointer;
         }
         .table-container {
-            flex: 1; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px;
-            margin-bottom: 20px; min-height: 200px;
+            flex: 1; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 5px;
+            margin-bottom: 10px; min-height: 120px; max-height: 220px;
         }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
         th {
-            background-color: var(--primary-light); color: var(--primary); padding: 12px;
-            font-weight: 700; text-align: left; border-bottom: 2px solid #e2e8f0;
+            background: var(--primary-light); color: var(--primary); padding: 7px 8px;
+            font-weight: 700; text-align: left; border-bottom: 1.5px solid #e2e8f0; font-size: 11px;
         }
-        td { padding: 12px; border-bottom: 1px solid #edf2f7; }
+        td { padding: 6px 8px; border-bottom: 1px solid #edf2f7; }
         .summary-card {
             background: var(--primary-light); border: 1px dashed var(--primary);
-            border-radius: 6px; padding: 18px; margin-bottom: 20px;
+            border-radius: 5px; padding: 12px; margin-bottom: 10px;
         }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
         .grand-total {
-            font-size: 26px; font-weight: 800; color: var(--primary);
-            border-top: 2px dashed #cbd5e1; padding-top: 12px; margin-top: 12px;
+            font-size: 20px; font-weight: 800; color: var(--primary);
+            border-top: 1.5px dashed #cbd5e1; padding-top: 8px; margin-top: 6px;
         }
         .history-box {
-            margin-top: 15px; max-height: 180px; overflow-y: auto; border: 1px solid #cbd5e1;
-            border-radius: 6px; background: #fafafa;
+            margin-top: 8px; max-height: 140px; overflow-y: auto; border: 1px solid #cbd5e1;
+            border-radius: 5px; background: #fafafa;
         }
         .history-item {
-            padding: 8px 12px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px;
-            display: flex; justify-content: space-between; align-items: center; gap: 6px; cursor: pointer;
+            padding: 6px 8px; border-bottom: 1px solid #e2e8f0; font-size: 11px;
+            display: flex; justify-content: space-between; align-items: center; gap: 4px;
         }
-        .history-item:hover { background: #f1f5f9; }
         .badge {
-            font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; text-transform: uppercase;
+            font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 8px; text-transform: uppercase;
         }
         .badge-pending { background: #fef3c7; color: #92400e; }
         .badge-dispatch { background: #dbeafe; color: #1e40af; }
         .badge-delivered { background: #dcfce7; color: #166534; }
         .badge-cancelled { background: #fee2e2; color: #991b1b; }
         footer {
-            margin-top: 20px; display: flex; justify-content: space-between; align-items: center;
-            background: white; padding: 12px 25px; border-radius: 8px;
+            margin-top: auto; display: flex; justify-content: space-between; align-items: center;
+            background: white; padding: 8px 14px; border-top: 1px solid #e2e8f0; font-size: 12px;
         }
-        .insta-tag { font-size: 14px; color: #475569; }
-        .insta-tag strong { color: var(--accent); font-weight: 700; }
-        .logo-box-circle { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary); }
+        .insta-tag { color: #475569; }
+        .insta-tag strong { color: var(--accent); }
+        .logo-box-circle { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; border: 1.5px solid var(--primary); }
         .logo-box-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .kb-hint { font-size: 10px; color: #94a3b8; margin-top: 4px; }
+
+        /* Modals */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex;
             justify-content: center; align-items: center; z-index: 2000; opacity: 0;
-            visibility: hidden; transition: all 0.3s ease-in-out; padding: 16px;
+            visibility: hidden; transition: all 0.25s; padding: 12px;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .popup-card {
-            background: white; padding: 30px; border-radius: 12px; width: 380px; max-width: 100%;
-            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            transform: scale(0.7); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: white; padding: 20px; border-radius: 10px; width: 340px; max-width: 95%;
+            text-align: center; box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+            transform: scale(0.9); transition: all 0.25s;
         }
         .modal-overlay.active .popup-card { transform: scale(1); }
         .popup-icon {
-            width: 60px; height: 60px; background: #e6f4ea; color: var(--success); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 30px; margin: 0 auto 15px;
+            width: 48px; height: 48px; background: #e6f4ea; color: var(--success); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 24px; margin: 0 auto 10px;
         }
-        .popup-card h3 { font-size: 22px; color: var(--primary); margin-bottom: 10px; }
-        .popup-card p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+        .popup-card h3 { font-size: 18px; color: var(--primary); margin-bottom: 6px; }
+        .popup-card p { font-size: 13px; color: #64748b; margin-bottom: 14px; }
         .popup-btn {
-            background: var(--primary); color: white; padding: 10px 24px; border-radius: 6px;
-            font-weight: 700; cursor: pointer; border: none; width: 100%;
+            background: var(--primary); color: white; padding: 8px 18px; border-radius: 5px;
+            font-weight: 700; cursor: pointer; border: none; width: 100%; font-size: 13px;
         }
         .report-card {
-            background: white; padding: 25px; border-radius: 12px; width: 720px; max-width: 95%;
-            max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: left;
+            background: white; padding: 18px; border-radius: 10px; width: 680px; max-width: 96%;
+            max-height: 88vh; overflow-y: auto; box-shadow: 0 16px 32px rgba(0,0,0,0.2); text-align: left;
         }
         .date-range-filter-box {
-            display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 10px; align-items: flex-end;
-            background: #f8fafc; padding: 12px; border-radius: 6px; margin-bottom: 15px;
+            display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 8px; align-items: flex-end;
+            background: #f8fafc; padding: 10px; border-radius: 5px; margin-bottom: 12px;
             border: 1px solid var(--gray-border);
         }
-        .report-grid-summary {
-            display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px;
-        }
+        .report-grid-summary { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
         .report-stat-box {
             background: var(--primary-light); border: 1px solid var(--gray-border);
-            padding: 14px; border-radius: 6px; text-align: center;
+            padding: 10px; border-radius: 5px; text-align: center;
         }
-        .report-stat-box h4 { font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
-        .report-stat-box p { font-size: 20px; font-weight: 800; color: var(--primary); }
-        .report-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .status-select {
-            padding: 6px 8px; border-radius: 6px; border: 1.5px solid var(--gray-border);
-            font-size: 12px; font-weight: 600;
+        .report-stat-box h4 { font-size: 10px; color: #64748b; text-transform: uppercase; margin-bottom: 3px; }
+        .report-stat-box p { font-size: 16px; font-weight: 800; color: var(--primary); }
+        .report-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+        .search-old-ref-box { display: flex; gap: 4px; align-items: center; }
+        .search-old-ref-box input {
+            background: #fff; color: var(--text-dark); border: none; padding: 5px 8px;
+            font-size: 12px; border-radius: 4px; width: 110px; font-weight: 600;
         }
-        .sync-badge { font-size: 11px; color: var(--success); font-weight: bold; display: inline-block; margin-top: 4px; }
-        .kb-hint { font-size: 11px; color: #94a3b8; margin-top: 6px; }
-        @media (max-width: 900px) {
-            .workspace { grid-template-columns: 1fr; }
-            .entry-row { grid-template-columns: 1fr 1fr; }
-            .customer-row { grid-template-columns: 1fr; }
-            .report-grid-summary { grid-template-columns: 1fr 1fr; }
-            .date-range-filter-box { grid-template-columns: 1fr 1fr; }
-        }
+
         @media print {
             @page { size: auto; margin: 0mm !important; }
             html, body { margin: 0 !important; padding: 0 !important; background: #fff; }
@@ -224,7 +303,7 @@
             #printInvoice, #printInvoice * { visibility: visible; }
             #printInvoice {
                 position: absolute; left: 0; top: 0; width: 100%; display: block !important;
-                background: white; color: black; padding: 25mm 20mm; box-sizing: border-box;
+                background: white; color: black; padding: 20mm 16mm; box-sizing: border-box;
             }
             body.print-report-mode #printInvoice { display: none !important; }
             body.print-report-mode .modal-overlay.active {
@@ -233,279 +312,346 @@
             }
             body.print-report-mode .report-card {
                 visibility: visible !important; position: absolute; left: 0; top: 0;
-                width: 100%; max-width: 100%; box-shadow: none; padding: 20mm;
+                width: 100%; max-width: 100%; box-shadow: none; padding: 16mm;
             }
             body.print-report-mode .report-card * { visibility: visible !important; }
             body.print-report-mode .report-actions,
             body.print-report-mode .popup-btn,
             body.print-report-mode .date-range-filter-box { display: none !important; }
-            .workspace, header, footer, .dev-top-bar, .modal-overlay, .btn-danger { display: none !important; }
-            .print-header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
-            .print-header h1 { font-size: 36px; font-weight: 900; letter-spacing: 2px; margin: 0; color: #000; }
-            .print-subtitle { font-size: 16px; font-weight: 700; text-transform: uppercase; margin-top: 5px; margin-bottom: 15px; }
-            .print-meta-grid { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; border-top: 1px solid #000; padding-top: 6px; }
-            .print-customer-box { font-size: 13px; line-height: 1.6; margin-bottom: 20px; padding: 5px 0; border-bottom: 1px solid #ccc; }
-            .print-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-            .print-table th {
-                background: #f5f5f5 !important; color: #000 !important; border: 1px solid #000 !important;
-                padding: 10px; font-size: 13px; font-weight: bold; text-align: left;
-            }
-            .print-table td { padding: 10px; font-size: 13px; border: 1px solid #ccc; text-transform: uppercase; }
-            .print-totals-box { text-align: right; font-size: 14px; line-height: 1.6; margin-top: 15px; }
-            .print-grand-amount { font-size: 20px; font-weight: 800; border-top: 2px solid #000; display: inline-block; padding-top: 5px; margin-top: 5px; }
-            .print-signature-area { margin-top: 40px; display: flex; justify-content: flex-end; }
-            .signature-line-item { font-size: 13px; font-weight: bold; }
-            .signature-line-item span { border-bottom: 1px solid #000; display: inline-block; width: 150px; margin-left: 10px; }
-            .print-footer-brand { text-align: center; margin-top: 50px; border-top: 1px dashed #000; padding-top: 12px; }
-            .print-logo-frame { width: 55px; height: 55px; border-radius: 50%; overflow: hidden; border: 2px solid #000; margin: 8px auto; }
+            .workspace, header, footer, .dev-top-bar, .modal-overlay, .btn-danger, .user-info-bar, .login-screen, .app-shell { display: none !important; }
+            body.print-report-mode .app-shell { display: none !important; }
+            .print-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; }
+            .print-header h1 { font-size: 28px; font-weight: 900; margin: 0; color: #000; }
+            .print-subtitle { font-size: 13px; font-weight: 700; text-transform: uppercase; margin-top: 3px; }
+            .print-meta-grid { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; border-top: 1px solid #000; padding-top: 5px; }
+            .print-customer-box { font-size: 12px; line-height: 1.5; margin-bottom: 14px; padding: 4px 0; border-bottom: 1px solid #ccc; }
+            .print-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+            .print-table th { background: #f5f5f5 !important; color: #000 !important; border: 1px solid #000 !important; padding: 7px; font-size: 12px; }
+            .print-table td { padding: 7px; font-size: 12px; border: 1px solid #ccc; text-transform: uppercase; }
+            .print-totals-box { text-align: right; font-size: 13px; line-height: 1.5; margin-top: 10px; }
+            .print-grand-amount { font-size: 17px; font-weight: 800; border-top: 2px solid #000; display: inline-block; padding-top: 4px; margin-top: 4px; }
+            .print-signature-area { margin-top: 28px; display: flex; justify-content: flex-end; }
+            .signature-line-item { font-size: 12px; font-weight: bold; }
+            .signature-line-item span { border-bottom: 1px solid #000; display: inline-block; width: 120px; margin-left: 8px; }
+            .print-footer-brand { text-align: center; margin-top: 36px; border-top: 1px dashed #000; padding-top: 10px; }
+            .print-logo-frame { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; border: 1.5px solid #000; margin: 6px auto; }
             .print-logo-frame img { width: 100%; height: 100%; object-fit: cover; }
         }
         .print-invoice-container { display: none; }
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+            .entry-row { grid-template-columns: 1fr 1fr; }
+            .customer-row { grid-template-columns: 1fr; }
+            .dash-stats, .dash-actions { grid-template-columns: 1fr 1fr; }
+            .dash-grid-2 { grid-template-columns: 1fr; }
+            .report-grid-summary { grid-template-columns: 1fr 1fr; }
+            .date-range-filter-box { grid-template-columns: 1fr 1fr; }
+        }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div class="dev-top-bar">Developed by MrCrazy digital company</div>
-
-    <header>
-        <div class="header-left">
-            <h1>DOUGH ART</h1>
-            <span id="syncStatus" class="sync-badge">☁️ Cloud Connected</span>
-        </div>
-        <div class="header-center-buttons">
-            <button class="btn-report-toggle" type="button" onclick="openVoucherReport()">📊 View Reports</button>
-            <div class="search-old-ref-box">
-                <input type="text" id="searchRefInput" class="kb-field" data-kb="search" placeholder="Search Old Ref No...">
-                <button class="btn-search-old" type="button" onclick="searchAndPrintOldInvoice()">Print Old</button>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-bg-blur"></div>
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Dough Art">
             </div>
-        </div>
-        <div class="header-right" style="text-align:right;">
-            <div class="ref-badge" style="margin-bottom:5px;">Ref No: <span id="refNumber">D.A-001</span></div>
-            <div id="liveDate" style="font-size:13px;font-weight:600;">--/--/----</div>
-        </div>
-    </header>
-
-    <div class="workspace">
-        <div class="panel">
-            <div class="section-title">Product & Item Matrix Configurator</div>
-            <div class="entry-row">
-                <div class="form-group search-container">
-                    <label>Select Product Item</label>
-                    <div class="custom-select-box" id="selectTrigger" onclick="toggleDropdownGrid()" tabindex="0">
-                        <span id="selectedLabel">SELECT CAKE ITEM</span> <span>▼</span>
-                    </div>
-                    <div id="dropdownPanel" class="dropdown-panel">
-                        <input type="text" id="innerSearchBar" class="search-bar-inside kb-field" data-kb="cake-search" placeholder="Search cake flavor...">
-                        <div id="cakeItemsList" class="cake-list-items"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="unitTypeSelect">Unit Type</label>
-                    <select id="unitTypeSelect" class="kb-field" data-kb="unit">
-                        <option value="LBS">Cakes LBS</option>
-                        <option value="QTY">QTY (Pieces)</option>
-                        <option value="KG">KG's</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="qtyInput" id="qtyInputLabel">Quantity / Weight</label>
-                    <input type="number" id="qtyInput" class="kb-field" data-kb="qty" min="0.01" step="0.01" value="1" placeholder="Enter amount">
-                </div>
-                <div class="form-group">
-                    <label for="rateInput">Rate / Price (Rs.)</label>
-                    <input type="number" id="rateInput" class="kb-field" data-kb="rate" value="1000">
-                </div>
-                <button class="btn btn-add" type="button" id="addItemBtn" onclick="triggerCartInsertion()">Add Item</button>
+            <h2>DOUGH ART</h2>
+            <div class="ver">POS SYSTEM · V9.1</div>
+            <input type="text" id="loginUser" placeholder="Username" autocomplete="username">
+            <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+            <button class="btn-login" type="button" onclick="doLogin()">Login</button>
+            <div class="login-error" id="loginError"></div>
+            <div class="login-footer">
+                Developed by <a href="https://mrcrazydev.netlify.app/" target="_blank" rel="noopener">Muhammad Naeem</a>
             </div>
-            <p class="kb-hint">⌨️ Enter = next field · Ctrl+S = Save & Print · Tap/click supported</p>
-
-            <div class="table-container">
-                <table id="cartTable">
-                    <thead>
-                        <tr>
-                            <th>Product Description</th>
-                            <th>Qty / Unit</th>
-                            <th>Rate</th>
-                            <th>Net Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <div class="section-title">Customer Portfolio Details (Optional)</div>
-            <div class="customer-row">
-                <div class="form-group">
-                    <label for="custName">Customer Name</label>
-                    <input type="text" id="custName" class="kb-field" data-kb="cust-name" placeholder="Enter name">
-                </div>
-                <div class="form-group">
-                    <label for="custNumber">Contact Number</label>
-                    <input type="text" id="custNumber" class="kb-field" data-kb="cust-phone" placeholder="Enter phone">
-                </div>
-                <div class="form-group">
-                    <label for="payMode">Payment Mode</label>
-                    <select id="payMode" class="kb-field" data-kb="pay">
-                        <option value="Delivery on Cash">Delivery on Cash</option>
-                        <option value="Online Payment">Online Payment</option>
-                    </select>
-                </div>
-            </div>
-            <div class="customer-row">
-                <div class="form-group">
-                    <label for="orderStatus">Order Status</label>
-                    <select id="orderStatus" class="kb-field" data-kb="status">
-                        <option value="Cake Pending">Cake Pending</option>
-                        <option value="Dispatch">Dispatch</option>
-                        <option value="Delivered">Delivered</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="operatorName">Operator / Cashier</label>
-                    <input type="text" id="operatorName" class="kb-field" data-kb="operator" placeholder="Counter name"
-                           value="" onchange="localStorage.setItem('da_operator', this.value)">
-                </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div class="kb-hint" style="padding-top:8px;">Status bill + history dono mein save hota hai</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="custAddress">Delivery Address</label>
-                <input type="text" id="custAddress" class="kb-field" data-kb="address" placeholder="Full residential location details...">
-            </div>
-        </div>
-
-        <div class="panel">
-            <div class="section-title">Checkout Overview</div>
-            <div class="summary-card">
-                <div class="summary-row">
-                    <span>Total Added Items:</span>
-                    <span id="totalQty" style="font-weight:700;">0</span>
-                </div>
-                <div class="summary-row grand-total">
-                    <span>Grand Total:</span>
-                    <span>Rs. <span id="grandTotal">0.00</span></span>
-                </div>
-            </div>
-
-            <button class="btn btn-action" type="button" onclick="fireFinalExecution()">Save & Print Bill (Ctrl + S)</button>
-            <button class="btn btn-cancel-req" type="button" onclick="requestCancelVoucher()">⛔ Request Cancel Voucher</button>
-
-            <div class="section-title" style="margin-top:25px;">Vouchers History Logs</div>
-            <div id="historyLogsBox" class="history-box"></div>
         </div>
     </div>
 
-    <footer>
-        <div class="insta-tag">Official Instagram: <strong>Dough.Art</strong></div>
-        <div class="logo-box-circle">
-            <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Dough Art Profile logo">
+    <!-- APP SHELL (after login) -->
+    <div class="app-shell" id="appShell">
+        <div class="dev-top-bar">Dough Art POS · V9.1 · Developed by Muhammad Naeem</div>
+        <div class="user-info-bar" id="userInfoBar">
+            <span>Logged in: <strong id="loggedUserName">—</strong></span>
+            <span id="lastLoginInfo">—</span>
+            <button type="button" class="btn-sm" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca;" onclick="doLogout()">Logout</button>
         </div>
-    </footer>
+
+        <header>
+            <div class="header-left">
+                <h1>DOUGH ART</h1>
+                <span id="syncStatus" class="sync-badge">☁️ Cloud Connected</span>
+            </div>
+            <div class="header-center-buttons">
+                <button class="btn-header" type="button" onclick="showView('dashboard')">🏠 Dashboard</button>
+                <button class="btn-header" type="button" onclick="showView('pos')">➕ New Bill</button>
+                <button class="btn-header" type="button" onclick="openVoucherReport()">📊 Reports</button>
+                <div class="search-old-ref-box">
+                    <input type="text" id="searchRefInput" class="kb-field" data-kb="search" placeholder="Old Ref No...">
+                    <button class="btn-header accent" type="button" onclick="searchAndPrintOldInvoice()">Print</button>
+                </div>
+            </div>
+            <div class="header-right" style="text-align:right;">
+                <div class="ref-badge">Ref: <span id="refNumber">D.A-001</span></div>
+                <div id="liveDate" style="font-size:11px;font-weight:600;">--/--/----</div>
+            </div>
+        </header>
+
+        <!-- ========== DASHBOARD VIEW ========== -->
+        <div id="view-dashboard" class="view active">
+            <div class="dash-wrap">
+                <div class="dash-stats">
+                    <div class="dash-stat">
+                        <div class="num" id="dashBillsToday">0</div>
+                        <div class="lbl">Today Bills</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="num" id="dashSaleToday">0</div>
+                        <div class="lbl">Today Sale (Rs.)</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="num" id="dashCashToday">0</div>
+                        <div class="lbl">Cash / Online</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="num" id="dashPending">0</div>
+                        <div class="lbl">Pending Orders</div>
+                    </div>
+                </div>
+
+                <div class="dash-actions">
+                    <button class="dash-action-btn" type="button" onclick="showView('pos')">
+                        <span class="ico">➕</span> New Bill
+                    </button>
+                    <button class="dash-action-btn secondary" type="button" onclick="openVoucherReport()">
+                        <span class="ico">📊</span> Reports
+                    </button>
+                    <button class="dash-action-btn secondary" type="button" onclick="document.getElementById('searchRefInput').focus()">
+                        <span class="ico">🔍</span> Search Old
+                    </button>
+                    <button class="dash-action-btn secondary" type="button" onclick="scrollToDispatch()">
+                        <span class="ico">🚚</span> Dispatch List
+                    </button>
+                </div>
+
+                <div class="dash-grid-2">
+                    <div class="dash-card" id="dispatchSection">
+                        <h3>Pending / Dispatch Orders</h3>
+                        <div class="dash-list" id="dashPendingList">
+                            <div class="empty-hint">No pending orders</div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <h3>My Recent Bills</h3>
+                        <div class="dash-list" id="dashMyRecent">
+                            <div class="empty-hint">No bills yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== POS / BILLING VIEW ========== -->
+        <div id="view-pos" class="view">
+            <div class="workspace">
+                <div class="panel">
+                    <div class="section-title">Product & Item Matrix</div>
+                    <div class="entry-row">
+                        <div class="form-group search-container">
+                            <label>Select Product</label>
+                            <div class="custom-select-box" id="selectTrigger" onclick="toggleDropdownGrid()" tabindex="0">
+                                <span id="selectedLabel">SELECT CAKE ITEM</span> <span>▼</span>
+                            </div>
+                            <div id="dropdownPanel" class="dropdown-panel">
+                                <input type="text" id="innerSearchBar" class="search-bar-inside kb-field" data-kb="cake-search" placeholder="Search cake...">
+                                <div id="cakeItemsList" class="cake-list-items"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="unitTypeSelect">Unit</label>
+                            <select id="unitTypeSelect" class="kb-field" data-kb="unit">
+                                <option value="LBS">LBS</option>
+                                <option value="QTY">QTY</option>
+                                <option value="KG">KG</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="qtyInput" id="qtyInputLabel">Qty / Weight</label>
+                            <input type="number" id="qtyInput" class="kb-field" data-kb="qty" min="0.01" step="0.01" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="rateInput">Rate (Rs.)</label>
+                            <input type="number" id="rateInput" class="kb-field" data-kb="rate" value="1000">
+                        </div>
+                        <button class="btn btn-add" type="button" id="addItemBtn" onclick="triggerCartInsertion()">Add</button>
+                    </div>
+                    <p class="kb-hint">⌨️ Enter = next · Ctrl+S = Save & Print</p>
+
+                    <div class="table-container">
+                        <table id="cartTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Rate</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div class="section-title">Customer (Optional)</div>
+                    <div class="customer-row">
+                        <div class="form-group">
+                            <label for="custName">Name</label>
+                            <input type="text" id="custName" class="kb-field" data-kb="cust-name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="custNumber">Phone</label>
+                            <input type="text" id="custNumber" class="kb-field" data-kb="cust-phone" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="payMode">Payment</label>
+                            <select id="payMode" class="kb-field" data-kb="pay">
+                                <option value="Delivery on Cash">Cash</option>
+                                <option value="Online Payment">Online</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="customer-row">
+                        <div class="form-group">
+                            <label for="orderStatus">Status</label>
+                            <select id="orderStatus" class="kb-field" data-kb="status">
+                                <option value="Cake Pending">Pending</option>
+                                <option value="Dispatch">Dispatch</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="operatorName">Operator</label>
+                            <input type="text" id="operatorName" class="kb-field" data-kb="operator" placeholder="Counter"
+                                   value="" onchange="localStorage.setItem('da_operator', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label for="custAddress">Address</label>
+                            <input type="text" id="custAddress" class="kb-field" data-kb="address" placeholder="Delivery address">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="section-title">Checkout</div>
+                    <div class="summary-card">
+                        <div class="summary-row">
+                            <span>Items:</span>
+                            <span id="totalQty" style="font-weight:700;">0</span>
+                        </div>
+                        <div class="summary-row grand-total">
+                            <span>Total:</span>
+                            <span>Rs. <span id="grandTotal">0.00</span></span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-action" type="button" onclick="fireFinalExecution()">Save & Print (Ctrl+S)</button>
+                    <button class="btn btn-cancel-req" type="button" onclick="requestCancelVoucher()">⛔ Cancel Request</button>
+                    <button class="btn" type="button" style="width:100%;margin-top:6px;background:#64748b;color:#fff;" onclick="showView('dashboard')">← Back to Dashboard</button>
+
+                    <div class="section-title" style="margin-top:14px;">Recent Vouchers</div>
+                    <div id="historyLogsBox" class="history-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="insta-tag">Instagram: <strong>Dough.Art</strong> · V9.1</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:11px;color:#64748b;">Developed by <a href="https://mrcrazydev.netlify.app/" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none;">Muhammad Naeem</a></span>
+                <div class="logo-box-circle">
+                    <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Logo">
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <!-- Standard + Report Modal -->
     <div class="modal-overlay" id="popupModal">
         <div class="popup-card" id="standardPopupCard">
             <div class="popup-icon">✓</div>
             <h3 id="popTitle">Success!</h3>
-            <p id="popMessage">Operation completed successfully.</p>
+            <p id="popMessage">Operation completed.</p>
             <button class="popup-btn" type="button" onclick="closePopupAlert()">Continue</button>
         </div>
-
         <div class="report-card" id="reportPopupCard" style="display:none;">
             <div class="print-header">
-                <h1>DOUGH ART</h1>
-                <div class="print-subtitle" id="reportSubtitle">Vouchers Analytics & Sales Report</div>
+                <h1 style="font-size:22px;color:var(--primary);text-align:center;">DOUGH ART</h1>
+                <div class="print-subtitle" id="reportSubtitle" style="text-align:center;color:#64748b;">Sales Report</div>
             </div>
-
             <div class="date-range-filter-box">
                 <div class="form-group">
-                    <label style="margin-bottom:3px;">From Date</label>
-                    <input type="date" id="reportDateFrom" style="padding:6px 10px;font-size:12px;">
+                    <label style="margin-bottom:2px;">From</label>
+                    <input type="date" id="reportDateFrom" style="padding:5px 8px;font-size:12px;">
                 </div>
                 <div class="form-group">
-                    <label style="margin-bottom:3px;">To Date</label>
-                    <input type="date" id="reportDateTo" style="padding:6px 10px;font-size:12px;">
+                    <label style="margin-bottom:2px;">To</label>
+                    <input type="date" id="reportDateTo" style="padding:5px 8px;font-size:12px;">
                 </div>
-                <button class="btn btn-add" type="button" style="padding:8px 15px;font-size:12px;" onclick="applyUserDateFilterReport()">Filter</button>
-                <button class="btn" type="button" style="padding:8px 15px;font-size:12px;background:#64748b;color:#fff;" onclick="showAllReports()">All</button>
+                <button class="btn btn-add" type="button" style="padding:6px 12px;font-size:11px;" onclick="applyUserDateFilterReport()">Filter</button>
+                <button class="btn" type="button" style="padding:6px 12px;font-size:11px;background:#64748b;color:#fff;" onclick="showAllReports()">All</button>
             </div>
-
-            <div class="section-title">1. Summary Report Metrics</div>
+            <div class="section-title">Summary</div>
             <div class="report-grid-summary">
-                <div class="report-stat-box">
-                    <h4>Active Vouchers</h4>
-                    <p id="repActiveCount">0</p>
-                </div>
-                <div class="report-stat-box">
-                    <h4>Net Revenue (excl. cancelled)</h4>
-                    <p>Rs. <span id="repTotalAmount">0.00</span></p>
-                </div>
-                <div class="report-stat-box">
-                    <h4>Cancelled</h4>
-                    <p id="repCancelledCount">0</p>
-                </div>
-                <div class="report-stat-box">
-                    <h4>All Records</h4>
-                    <p id="repTotalCount">0</p>
-                </div>
+                <div class="report-stat-box"><h4>Active</h4><p id="repActiveCount">0</p></div>
+                <div class="report-stat-box"><h4>Net Revenue</h4><p>Rs. <span id="repTotalAmount">0</span></p></div>
+                <div class="report-stat-box"><h4>Cancelled</h4><p id="repCancelledCount">0</p></div>
+                <div class="report-stat-box"><h4>All</h4><p id="repTotalCount">0</p></div>
             </div>
-
-            <div class="section-title">2. Detailed Log (All Statuses)</div>
-            <div class="table-container" style="max-height:280px;">
+            <div class="section-title">Detailed Log</div>
+            <div class="table-container" style="max-height:220px;">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>REF</th>
-                            <th>Date & Time</th>
-                            <th>Status</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>REF</th><th>Date</th><th>Status</th><th>Amount</th></tr></thead>
                     <tbody id="reportTableBody"></tbody>
                 </table>
             </div>
-
             <div class="report-actions">
-                <button class="popup-btn" type="button" style="background:var(--success);width:auto;padding:10px 18px;" onclick="printSystemReport()">Print Full Report</button>
-                <button class="popup-btn" type="button" style="background:#64748b;width:auto;padding:10px 18px;" onclick="closePopupAlert()">Close</button>
+                <button class="popup-btn" type="button" style="background:var(--success);width:auto;padding:8px 14px;" onclick="printSystemReport()">🖨 Print / Save PDF</button>
+                <button class="popup-btn" type="button" style="background:#64748b;width:auto;padding:8px 14px;" onclick="closePopupAlert()">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Cancel reason modal -->
+    <!-- Cancel modal -->
     <div class="modal-overlay" id="cancelModal">
-        <div class="popup-card" style="text-align:left;width:420px;">
-            <h3 style="color:var(--danger);margin-bottom:8px;">⛔ Cancel Request</h3>
-            <p style="font-size:13px;color:#64748b;margin-bottom:12px;">
-                Voucher select karein aur cancel ki wajah likhein. Request admin ko jayegi. Amount total revenue mein nahi aayega.
-            </p>
-            <div class="form-group" style="margin-bottom:10px;">
-                <label>Select Voucher</label>
+        <div class="popup-card" style="text-align:left;width:380px;">
+            <h3 style="color:var(--danger);margin-bottom:6px;">⛔ Cancel Request</h3>
+            <p style="font-size:12px;color:#64748b;margin-bottom:10px;">Select voucher + reason. Admin ko request jayegi.</p>
+            <div class="form-group" style="margin-bottom:8px;">
+                <label>Voucher</label>
                 <select id="cancelVoucherSelect" style="width:100%;"></select>
             </div>
-            <div class="form-group" style="margin-bottom:14px;">
-                <label>Cancel Reason *</label>
-                <input type="text" id="cancelReasonInput" placeholder="e.g. Customer cancelled order" style="width:100%;">
+            <div class="form-group" style="margin-bottom:12px;">
+                <label>Reason *</label>
+                <input type="text" id="cancelReasonInput" placeholder="Reason..." style="width:100%;">
             </div>
-            <button class="popup-btn" type="button" style="background:var(--danger);margin-bottom:8px;" onclick="submitCancelRequest()">Send Cancel Request</button>
+            <button class="popup-btn" type="button" style="background:var(--danger);margin-bottom:6px;" onclick="submitCancelRequest()">Send Request</button>
             <button class="popup-btn" type="button" style="background:#64748b;" onclick="closeCancelModal()">Close</button>
         </div>
     </div>
 
-    <!-- Professional input prompt (replaces browser prompt) -->
+    <!-- Prompt modal -->
     <div class="modal-overlay" id="promptModal">
-        <div class="popup-card" style="text-align:left;width:400px;max-width:95%;">
-            <div style="text-align:center;margin-bottom:12px;">
-                <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--primary);text-transform:uppercase;">Dough Art</div>
-                <h3 id="promptTitle" style="color:var(--primary);margin:6px 0 0;font-size:18px;">Enter value</h3>
+        <div class="popup-card" style="text-align:left;width:360px;">
+            <div style="text-align:center;margin-bottom:10px;">
+                <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--primary);">DOUGH ART</div>
+                <h3 id="promptTitle" style="color:var(--primary);margin:4px 0 0;font-size:16px;">Enter value</h3>
             </div>
-            <p id="promptMessage" style="font-size:13px;color:#64748b;margin-bottom:12px;"></p>
-            <input type="text" id="promptInput" style="width:100%;padding:12px 14px;border:1.5px solid var(--gray-border);border-radius:8px;font-size:15px;font-weight:600;margin-bottom:16px;" />
-            <div style="display:flex;gap:10px;">
+            <p id="promptMessage" style="font-size:12px;color:#64748b;margin-bottom:10px;"></p>
+            <input type="text" id="promptInput" style="width:100%;padding:10px;border:1.5px solid var(--gray-border);border-radius:6px;font-size:14px;font-weight:600;margin-bottom:12px;" />
+            <div style="display:flex;gap:8px;">
                 <button class="popup-btn" type="button" style="background:var(--primary);flex:1;" onclick="confirmPromptModal()">OK</button>
                 <button class="popup-btn" type="button" style="background:#64748b;flex:1;" onclick="closePromptModal()">Cancel</button>
             </div>
@@ -515,21 +661,21 @@
     <div id="printInvoice" class="print-invoice-container">
         <div class="print-header" style="position:relative;">
             <h1>DOUGH ART</h1>
-            <div class="print-subtitle">Bill / Retail Bill</div>
-            <div id="pCancelledCorner" style="display:none;position:absolute;top:0;right:0;border:3px solid #dc2626;color:#dc2626;font-weight:900;font-size:16px;padding:6px 12px;text-transform:uppercase;letter-spacing:1px;transform:rotate(-6deg);">CANCELLED VOUCHER</div>
+            <div class="print-subtitle">Bill / Retail Bill · V9.1</div>
+            <div id="pCancelledCorner" style="display:none;position:absolute;top:0;right:0;border:2px solid #dc2626;color:#dc2626;font-weight:900;font-size:13px;padding:4px 8px;text-transform:uppercase;transform:rotate(-6deg);">CANCELLED</div>
             <div class="print-meta-grid">
                 <span id="pRef">Ref No: D.A-001</span>
                 <span id="pDateTime">Date & Time: --/--/----</span>
             </div>
         </div>
-        <div id="pCancelledBanner" style="display:none;text-align:center;border:2px solid #dc2626;background:#fef2f2;color:#991b1b;font-weight:800;font-size:18px;padding:10px;margin:10px 0;text-transform:uppercase;letter-spacing:2px;">⚠ THIS VOUCHER IS CANCELLED — NOT VALID FOR DELIVERY / PAYMENT</div>
+        <div id="pCancelledBanner" style="display:none;text-align:center;border:2px solid #dc2626;background:#fef2f2;color:#991b1b;font-weight:800;font-size:14px;padding:8px;margin:8px 0;text-transform:uppercase;">⚠ CANCELLED VOUCHER</div>
         <div id="pCustDetails" class="print-customer-box"></div>
-        <div id="pStatusLine" style="font-size:13px;font-weight:700;margin-bottom:10px;"></div>
+        <div id="pStatusLine" style="font-size:12px;font-weight:700;margin-bottom:8px;"></div>
         <table class="print-table">
             <thead>
                 <tr>
-                    <th style="text-align:left;width:55%;">Item Description</th>
-                    <th style="text-align:center;width:15%;">Qty / Unit</th>
+                    <th style="text-align:left;width:55%;">Item</th>
+                    <th style="text-align:center;width:15%;">Qty</th>
                     <th style="text-align:center;width:15%;">Rate</th>
                     <th style="text-align:right;width:15%;">Total</th>
                 </tr>
@@ -537,19 +683,19 @@
             <tbody id="pItemsBody"></tbody>
         </table>
         <div class="print-totals-box">
-            <div>Payment Mode: <span id="pMethod" style="font-weight:bold;">Delivery on Cash</span></div>
+            <div>Payment: <span id="pMethod" style="font-weight:bold;">Cash</span></div>
             <div class="print-grand-amount" id="pGrandTotalWrap">Grand Total: Rs. <span id="pGrandTotal">0.00</span></div>
-            <div id="pCancelledTotalNote" style="display:none;color:#dc2626;font-weight:900;font-size:16px;margin-top:8px;">TOTAL: CANCELLED — VOUCHER VOID</div>
+            <div id="pCancelledTotalNote" style="display:none;color:#dc2626;font-weight:900;font-size:14px;margin-top:6px;">TOTAL: CANCELLED</div>
         </div>
         <div class="print-signature-area">
             <div class="signature-line-item">Checked By:<span></span></div>
         </div>
         <div class="print-footer-brand">
-            <p style="font-size:13px;font-weight:bold;">Official Instagram: Dough.Art</p>
+            <p style="font-size:12px;font-weight:bold;">Instagram: Dough.Art</p>
             <div class="print-logo-frame">
-                <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Dough Art Badge Stamp">
+                <img src="https://i.ibb.co/8Lh8ffZ6/560308726-18265089649304356-2715372666452110549-n.jpg" alt="Logo">
             </div>
-            <p style="font-size:11px;font-style:italic;color:#444;">Thank You For Trusting Us - Dough Art!</p>
+            <p style="font-size:10px;font-style:italic;color:#444;">Thank You — Dough Art · Developed by Muhammad Naeem</p>
         </div>
     </div>
 
@@ -578,10 +724,110 @@ let cakeDatabase = JSON.parse(localStorage.getItem('da_cakeDatabase')) || initia
 let totalVouchersHistory = JSON.parse(localStorage.getItem('da_vouchersHistory')) || [];
 let cartItems = [];
 let activeSelectedCake = "";
+let currentUser = null;
 
-window.onload = function() {
+/* ===== PERSISTENT LOGIN (localStorage — stays until Logout) ===== */
+function ensureDefaultUsers() {
+    let users = JSON.parse(localStorage.getItem('da_users') || 'null');
+    if (!users || !users.length) {
+        users = [
+            { username: 'admin', password: 'admin123', role: 'admin', name: 'Admin' },
+            { username: 'cashier', password: '1234', role: 'user', name: 'Cashier' }
+        ];
+        localStorage.setItem('da_users', JSON.stringify(users));
+    }
+    database.ref('da_users').once('value').then(snap => {
+        if (snap.exists()) {
+            const raw = snap.val();
+            const arr = Array.isArray(raw) ? raw : Object.values(raw || {});
+            if (arr.length) localStorage.setItem('da_users', JSON.stringify(arr));
+        } else {
+            database.ref('da_users').set(users);
+        }
+    }).catch(()=>{});
+}
+
+function doLogin() {
+    const u = (document.getElementById('loginUser').value || '').trim().toLowerCase();
+    const p = (document.getElementById('loginPass').value || '').trim();
+    const err = document.getElementById('loginError');
+    if (!u || !p) { err.innerText = 'Username or password required'; return; }
+    ensureDefaultUsers();
+    const users = JSON.parse(localStorage.getItem('da_users') || '[]');
+    const found = users.find(x => (x.username || '').toLowerCase() === u && x.password === p);
+    if (!found) {
+        err.innerText = 'Invalid username or password';
+        return;
+    }
+    currentUser = found;
+    // PERSISTENT — localStorage (survives browser close until Logout)
+    localStorage.setItem('da_pos_user', JSON.stringify(found));
+    const loginLog = { user: found.username, name: found.name || found.username, ts: Date.now(), time: new Date().toLocaleString() };
+    localStorage.setItem('da_last_login', JSON.stringify(loginLog));
+    database.ref('da_loginLogs').push(loginLog).catch(()=>{});
+    enterApp();
+}
+
+function doLogout() {
+    localStorage.removeItem('da_pos_user');
+    currentUser = null;
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('appShell').classList.remove('visible');
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginError').innerText = '';
+}
+
+function checkSession() {
+    ensureDefaultUsers();
+    const s = localStorage.getItem('da_pos_user');
+    if (s) {
+        try {
+            currentUser = JSON.parse(s);
+            enterApp();
+            return;
+        } catch(e){}
+    }
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('appShell').classList.remove('visible');
+}
+
+function enterApp() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('appShell').classList.add('visible');
+    document.getElementById('loggedUserName').innerText = (currentUser && (currentUser.name || currentUser.username)) || '—';
+    const last = localStorage.getItem('da_last_login');
+    if (last) {
+        try {
+            const L = JSON.parse(last);
+            document.getElementById('lastLoginInfo').innerText = 'Last login: ' + (L.time || '');
+        } catch(e){}
+    }
+    initApp();
+    showView('dashboard');
+}
+
+function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const el = document.getElementById('view-' + name);
+    if (el) el.classList.add('active');
+    if (name === 'dashboard') refreshDashboard();
+    if (name === 'pos') {
+        document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
+    }
+}
+
+function scrollToDispatch() {
+    showView('dashboard');
+    setTimeout(() => {
+        const sec = document.getElementById('dispatchSection');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+}
+
+function initApp() {
     document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
-    const op = localStorage.getItem('da_operator') || '';
+    const op = localStorage.getItem('da_operator') || (currentUser && currentUser.name) || '';
     const opEl = document.getElementById('operatorName');
     if (opEl) opEl.value = op;
     renderSystemLogs();
@@ -589,11 +835,139 @@ window.onload = function() {
     setupInputWatchers();
     setupKeyboardNav();
     syncDataFromCloud();
-};
+    refreshDashboard();
+}
+
+window.onload = function() { checkSession(); };
+
+function isToday(tsOrTime) {
+    const now = new Date();
+    let d = null;
+    if (typeof tsOrTime === 'number') d = new Date(tsOrTime);
+    else if (tsOrTime) {
+        try {
+            if (String(tsOrTime).includes('T') || /^\d{4}-\d{2}-\d{2}/.test(tsOrTime)) d = new Date(tsOrTime);
+            else {
+                const datePart = String(tsOrTime).split(' ')[0];
+                const seg = datePart.split('/');
+                if (seg.length >= 3) d = new Date(parseInt(seg[2],10), parseInt(seg[1],10)-1, parseInt(seg[0],10));
+                else d = new Date(tsOrTime);
+            }
+        } catch(e) { return false; }
+    }
+    if (!d || isNaN(d.getTime())) return false;
+    return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+}
+
+function refreshDashboard() {
+    let billsToday = 0, saleToday = 0, cashToday = 0, onlineToday = 0, pendingCount = 0;
+    const pendingList = [];
+    const myRecent = [];
+    const myUser = (currentUser && currentUser.username) || '';
+
+    (totalVouchersHistory || []).forEach(v => {
+        if (!v) return;
+        const isCancel = String(v.status || '').toLowerCase().includes('cancel');
+        const st = v.status || 'Cake Pending';
+        const isPendingOrDispatch = !isCancel && (st === 'Cake Pending' || st === 'Dispatch' || String(st).toLowerCase().includes('pending') || String(st).toLowerCase().includes('dispatch'));
+
+        if (isToday(v.ts || v.time) && !isCancel) {
+            billsToday++;
+            const amt = parseFloat(v.amount) || 0;
+            saleToday += amt;
+            const pay = (v.paymentMethod || '').toLowerCase();
+            if (pay.includes('online')) onlineToday += amt;
+            else cashToday += amt;
+        }
+        if (isPendingOrDispatch) {
+            pendingCount++;
+            pendingList.push(v);
+        }
+        // My recent: same operator/logged user, or all if no match
+        if (!isCancel) {
+            const matchUser = (v.loggedUser && v.loggedUser === myUser) ||
+                (v.operatorName && currentUser && (v.operatorName === currentUser.name || v.operatorName === currentUser.username));
+            if (matchUser || !myUser) myRecent.push(v);
+        }
+    });
+
+    document.getElementById('dashBillsToday').innerText = billsToday;
+    document.getElementById('dashSaleToday').innerText = saleToday.toFixed(0);
+    document.getElementById('dashCashToday').innerText = cashToday.toFixed(0) + ' / ' + onlineToday.toFixed(0);
+    document.getElementById('dashPending').innerText = pendingCount;
+
+    // Pending list
+    const pendBox = document.getElementById('dashPendingList');
+    if (!pendingList.length) {
+        pendBox.innerHTML = '<div class="empty-hint">No pending / dispatch orders</div>';
+    } else {
+        pendBox.innerHTML = pendingList.slice(0, 15).map(v => {
+            const st = v.status || 'Cake Pending';
+            return `<div class="dash-row">
+                <div>
+                    <strong>${v.vouchRef || ''}</strong>
+                    <span class="badge ${statusBadgeClass(st)}" style="margin-left:4px;">${st}</span>
+                    <div style="font-size:10px;color:#64748b;">Rs. ${v.amount || '0'} · ${v.time || ''}</div>
+                </div>
+                <div style="display:flex;gap:4px;align-items:center;">
+                    <select class="status-select-sm" onchange="changeVoucherStatusFromDash('${v.vouchRef}', this.value)">
+                        <option value="Cake Pending" ${st==='Cake Pending'?'selected':''}>Pending</option>
+                        <option value="Dispatch" ${st==='Dispatch'?'selected':''}>Dispatch</option>
+                        <option value="Delivered" ${st==='Delivered'?'selected':''}>Delivered</option>
+                    </select>
+                    <button class="btn-sm btn-sm-info" type="button" onclick="reprintFromDash('${v.vouchRef}')">Print</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // My recent
+    const myBox = document.getElementById('dashMyRecent');
+    const recentShow = (myRecent.length ? myRecent : totalVouchersHistory.filter(v => v && !String(v.status||'').toLowerCase().includes('cancel'))).slice(0, 12);
+    if (!recentShow.length) {
+        myBox.innerHTML = '<div class="empty-hint">No bills yet</div>';
+    } else {
+        myBox.innerHTML = recentShow.map(v => {
+            const st = v.status || 'Cake Pending';
+            return `<div class="dash-row">
+                <div>
+                    <strong>${v.vouchRef || ''}</strong>
+                    <span class="badge ${statusBadgeClass(st)}" style="margin-left:4px;">${st}</span>
+                    <div style="font-size:10px;color:#64748b;">${v.time || ''}</div>
+                </div>
+                <div style="display:flex;gap:4px;align-items:center;">
+                    <span style="font-weight:700;color:var(--success);">Rs. ${v.amount || '0'}</span>
+                    <button class="btn-sm btn-sm-info" type="button" onclick="reprintFromDash('${v.vouchRef}')">Print</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+}
+
+function changeVoucherStatusFromDash(ref, newStatus) {
+    const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
+    if (idx < 0) return;
+    if (String(totalVouchersHistory[idx].status || '').toLowerCase().includes('cancel')) {
+        showPopupAlert('Locked', 'Cancelled voucher ka status change nahi ho sakta.', false);
+        refreshDashboard();
+        return;
+    }
+    totalVouchersHistory[idx].status = newStatus;
+    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
+    database.ref('da_vouchersHistory').set(totalVouchersHistory);
+    renderSystemLogs();
+    refreshDashboard();
+}
+
+function reprintFromDash(ref) {
+    document.getElementById('searchRefInput').value = ref;
+    searchAndPrintOldInvoice();
+}
 
 function syncDataFromCloud() {
     const statusEl = document.getElementById('syncStatus');
-    statusEl.innerText = "🔄 Syncing with Cloud...";
+    if (!statusEl) return;
+    statusEl.innerText = "🔄 Syncing...";
     statusEl.style.color = "#eab308";
 
     database.ref('da_referenceId').once('value').then((snapshot) => {
@@ -626,22 +1000,24 @@ function syncDataFromCloud() {
             totalVouchersHistory = Array.from(map.values()).sort((a, b) => String(b.vouchRef).localeCompare(String(a.vouchRef)));
             localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
             renderSystemLogs();
-            statusEl.innerText = "☁️ Cloud Synced & Secure";
+            refreshDashboard();
+            statusEl.innerText = "☁️ Synced";
             statusEl.style.color = "var(--success)";
         } else {
-            statusEl.innerText = "☁️ Cloud Linked (Empty DB)";
+            statusEl.innerText = "☁️ Linked";
             statusEl.style.color = "var(--success)";
         }
     }, (err) => {
         console.error(err);
-        statusEl.innerText = "⚠️ Offline Mode Active";
+        statusEl.innerText = "⚠️ Offline";
         statusEl.style.color = "var(--danger)";
     });
 }
 
 function clockTick() {
     const dateObj = new Date();
-    document.getElementById('liveDate').innerText = "Date: " + dateObj.toLocaleDateString() + " | " + dateObj.toLocaleTimeString();
+    const el = document.getElementById('liveDate');
+    if (el) el.innerText = dateObj.toLocaleDateString() + " | " + dateObj.toLocaleTimeString();
 }
 setInterval(clockTick, 1000);
 clockTick();
@@ -653,11 +1029,13 @@ const qtyInputLabel = document.getElementById('qtyInputLabel');
 function updateQtyLabel() {
     const u = unitTypeSelect.value;
     if (u === 'LBS') qtyInputLabel.innerText = 'Pounds (LBS)';
-    else if (u === 'QTY') qtyInputLabel.innerText = 'Quantity (Pieces)';
-    else qtyInputLabel.innerText = "Kilograms (KG's)";
+    else if (u === 'QTY') qtyInputLabel.innerText = 'Qty';
+    else qtyInputLabel.innerText = "KG";
 }
-unitTypeSelect.addEventListener('change', updateQtyLabel);
-updateQtyLabel();
+if (unitTypeSelect) {
+    unitTypeSelect.addEventListener('change', updateQtyLabel);
+    updateQtyLabel();
+}
 
 function formatUnitLabel(qty, unit) {
     const n = parseFloat(qty);
@@ -691,20 +1069,9 @@ function showPopupAlert(title, message, isSuccess = true) {
         iconEl.style.background = "#fce8e6";
         iconEl.style.color = "var(--danger)";
     }
-    // Brand subtitle if not present
-    let brand = document.getElementById('popupBrandLabel');
-    if (!brand) {
-        brand = document.createElement('div');
-        brand.id = 'popupBrandLabel';
-        brand.style.cssText = 'font-size:11px;font-weight:800;letter-spacing:2px;color:var(--primary);text-transform:uppercase;margin-bottom:4px;';
-        brand.innerText = 'DOUGH ART';
-        const card = document.getElementById('standardPopupCard');
-        card.insertBefore(brand, card.firstChild);
-    }
     document.getElementById('popupModal').classList.add('active');
 }
 
-/* Professional prompt (replaces browser prompt/alert) */
 let _promptCallback = null;
 function showAppPrompt(title, message, defaultValue, callback) {
     _promptCallback = callback;
@@ -713,7 +1080,7 @@ function showAppPrompt(title, message, defaultValue, callback) {
     const inp = document.getElementById('promptInput');
     inp.value = defaultValue != null ? String(defaultValue) : '';
     document.getElementById('promptModal').classList.add('active');
-    setTimeout(() => { inp.focus(); inp.select(); }, 80);
+    setTimeout(() => { inp.focus(); inp.select(); }, 60);
 }
 function closePromptModal() {
     document.getElementById('promptModal').classList.remove('active');
@@ -726,7 +1093,6 @@ function confirmPromptModal() {
     _promptCallback = null;
     if (typeof cb === 'function') cb(val);
 }
-// Enter key on prompt input
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && document.getElementById('promptModal').classList.contains('active')) {
         e.preventDefault();
@@ -736,9 +1102,6 @@ document.addEventListener('keydown', function(e) {
         closePromptModal();
     }
 });
-function appAlert(msg) {
-    showPopupAlert('Dough Art', msg, false);
-}
 
 function openVoucherReport() {
     document.getElementById('standardPopupCard').style.display = "none";
@@ -753,7 +1116,7 @@ function openVoucherReport() {
 function showAllReports() {
     document.getElementById('reportDateFrom').value = "";
     document.getElementById('reportDateTo').value = "";
-    document.getElementById('reportSubtitle').innerText = "Vouchers Analytics & Sales Report (All Time)";
+    document.getElementById('reportSubtitle').innerText = "Sales Report (All Time)";
     populateUserReportTable(totalVouchersHistory);
 }
 
@@ -764,7 +1127,6 @@ function parseVoucherDate(timeStr) {
         const datePart = timeStr.split(' ')[0];
         const segments = datePart.split('/');
         if (segments.length >= 3) {
-            // DD/MM/YYYY
             return new Date(parseInt(segments[2], 10), parseInt(segments[1], 10) - 1, parseInt(segments[0], 10));
         }
         return new Date(timeStr);
@@ -775,7 +1137,6 @@ function populateUserReportTable(targetDataList) {
     let activeCount = 0, cancelledCount = 0, totalSum = 0;
     const tbody = document.getElementById('reportTableBody');
     tbody.innerHTML = "";
-
     (targetDataList || []).forEach(log => {
         if (!log) return;
         const st = log.status || 'Cake Pending';
@@ -789,39 +1150,34 @@ function populateUserReportTable(targetDataList) {
         tbody.innerHTML += `<tr>
             <td><strong>${log.vouchRef || ''}</strong></td>
             <td>${log.time || ''}</td>
-            <td><span class="badge ${badge}">${st}</span>${log.cancelReason ? '<div style="font-size:11px;color:#991b1b;margin-top:3px;">' + log.cancelReason + '</div>' : ''}</td>
+            <td><span class="badge ${badge}">${st}</span>${log.cancelReason ? '<div style="font-size:10px;color:#991b1b;">' + log.cancelReason + '</div>' : ''}</td>
             <td style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">Rs. ${log.amount || '0'}${isCancel ? ' (excl.)' : ''}</td>
         </tr>`;
     });
-
     if (!targetDataList || !targetDataList.length) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#999;padding:15px;">No records match the filter.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#999;padding:12px;">No records</td></tr>`;
     }
-
     document.getElementById('repActiveCount').innerText = activeCount;
     document.getElementById('repCancelledCount').innerText = cancelledCount;
     document.getElementById('repTotalCount').innerText = (targetDataList || []).length;
-    document.getElementById('repTotalAmount').innerText = totalSum.toFixed(2);
+    document.getElementById('repTotalAmount').innerText = totalSum.toFixed(0);
 }
 
 function applyUserDateFilterReport() {
     let rawFrom = document.getElementById('reportDateFrom').value;
     let rawTo = document.getElementById('reportDateTo').value;
     if (!rawFrom || !rawTo) {
-        showPopupAlert("Dates Required", "Meherbani karke dono dates select karein!", false);
+        showPopupAlert("Dates Required", "Dono dates select karein!", false);
         return;
     }
     let startBound = new Date(rawFrom); startBound.setHours(0, 0, 0, 0);
     let endBound = new Date(rawTo); endBound.setHours(23, 59, 59, 999);
-
     let filteredList = totalVouchersHistory.filter(v => {
         if (!v) return false;
-        // Prefer ISO ts if present
         let itemDate = v.ts ? new Date(v.ts) : parseVoucherDate(v.time);
         if (!itemDate || isNaN(itemDate.getTime())) return false;
         return itemDate >= startBound && itemDate <= endBound;
     });
-
     document.getElementById('reportSubtitle').innerText = `Sales Report (${rawFrom} to ${rawTo})`;
     populateUserReportTable(filteredList);
 }
@@ -836,13 +1192,12 @@ function closePopupAlert() {
     document.getElementById('popupModal').classList.remove('active');
 }
 
-/* ===== Cancel request flow ===== */
 function requestCancelVoucher() {
     const sel = document.getElementById('cancelVoucherSelect');
     sel.innerHTML = '';
     const active = totalVouchersHistory.filter(v => v && !String(v.status || '').toLowerCase().includes('cancel'));
     if (!active.length) {
-        showPopupAlert("No Vouchers", "Cancel karne ke liye koi active voucher nahi.", false);
+        showPopupAlert("No Vouchers", "Koi active voucher nahi.", false);
         return;
     }
     active.forEach(v => {
@@ -863,11 +1218,9 @@ function submitCancelRequest() {
     const ref = document.getElementById('cancelVoucherSelect').value;
     const reason = (document.getElementById('cancelReasonInput').value || '').trim();
     if (!ref) return showPopupAlert('Required', 'Voucher select karein', false);
-    if (!reason) return showPopupAlert('Required', 'Cancel reason likhna zaroori hai', false);
-
+    if (!reason) return showPopupAlert('Required', 'Reason zaroori hai', false);
     const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
     if (idx < 0) return showPopupAlert('Not Found', 'Voucher not found', false);
-
     totalVouchersHistory[idx] = {
         ...totalVouchersHistory[idx],
         status: 'Cancelled',
@@ -875,43 +1228,28 @@ function submitCancelRequest() {
         cancelRequestedAt: Date.now(),
         cancelApproved: false
     };
-
     localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
-
-    // Admin request queue
     const req = {
         vouchRef: ref,
         reason: reason,
         amount: totalVouchersHistory[idx].amount,
         time: totalVouchersHistory[idx].time,
         ts: Date.now(),
-        status: 'pending_review'
+        status: 'pending_review',
+        requestedBy: (currentUser && currentUser.username) || 'pos'
     };
-
     database.ref('da_cancelRequests').push(req);
     database.ref('da_vouchersHistory').set(totalVouchersHistory).then(() => {
         closeCancelModal();
         renderSystemLogs();
-        showPopupAlert("Cancel Request Sent", `Voucher ${ref} cancel request admin ko bhej di gayi.\nReason: ${reason}\nAmount revenue se exclude ho chuka hai.`, true);
+        refreshDashboard();
+        showPopupAlert("Request Sent", `Voucher ${ref} cancel request bhej di gayi.`, true);
     }).catch(() => {
         closeCancelModal();
         renderSystemLogs();
-        showPopupAlert("Saved Locally", "Local save ho gaya. Cloud sync baad mein try karein.", false);
+        refreshDashboard();
+        showPopupAlert("Saved Locally", "Local save. Cloud baad mein.", false);
     });
-}
-
-/* Quick status change from history */
-function changeVoucherStatus(ref, newStatus) {
-    const idx = totalVouchersHistory.findIndex(v => v && v.vouchRef === ref);
-    if (idx < 0) return;
-    if (String(totalVouchersHistory[idx].status || '').toLowerCase().includes('cancel')) {
-        showPopupAlert('Locked', 'Cancelled voucher ka status change nahi ho sakta. Admin se contact karein.', false);
-        return;
-    }
-    totalVouchersHistory[idx].status = newStatus;
-    localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
-    database.ref('da_vouchersHistory').set(totalVouchersHistory);
-    renderSystemLogs();
 }
 
 const dropdownPanel = document.getElementById('dropdownPanel');
@@ -919,18 +1257,19 @@ const innerSearchBar = document.getElementById('innerSearchBar');
 const cakeItemsList = document.getElementById('cakeItemsList');
 
 function toggleDropdownGrid() {
+    if (!dropdownPanel) return;
     if (dropdownPanel.style.display === "block") dropdownPanel.style.display = "none";
     else {
         dropdownPanel.style.display = "block";
-        innerSearchBar.focus();
+        if (innerSearchBar) innerSearchBar.focus();
     }
 }
 
 function buildCakeDropdownList(filterText) {
+    if (!cakeItemsList) return;
     cakeItemsList.innerHTML = "";
-    let query = filterText.toUpperCase().trim();
+    let query = (filterText || '').toUpperCase().trim();
     let filtered = cakeDatabase.filter(c => (c.name || '').includes(query));
-
     if (filtered.length > 0) {
         filtered.forEach(cake => {
             let div = document.createElement('div');
@@ -943,8 +1282,8 @@ function buildCakeDropdownList(filterText) {
         let addBox = document.createElement('div');
         addBox.className = "add-new-box";
         addBox.innerHTML = `
-            <p style="font-size:12px;color:var(--danger);font-weight:600;margin-bottom:5px;">Not Found in System</p>
-            <button class="btn-inline-add" type="button" onclick="addNewCakeToSystem('${query.replace(/'/g, "\\'")}')">➕ ADD "${query}" PERMANENTLY</button>
+            <p style="font-size:11px;color:var(--danger);font-weight:600;margin-bottom:4px;">Not Found</p>
+            <button class="btn-inline-add" type="button" onclick="addNewCakeToSystem('${query.replace(/'/g, "\\'")}')">➕ ADD "${query}"</button>
         `;
         cakeItemsList.appendChild(addBox);
     }
@@ -954,9 +1293,8 @@ function selectCakeOption(name, price) {
     activeSelectedCake = name;
     document.getElementById('selectedLabel').innerText = name;
     document.getElementById('rateInput').value = price;
-    dropdownPanel.style.display = "none";
-    qtyInput.focus();
-    qtyInput.select();
+    if (dropdownPanel) dropdownPanel.style.display = "none";
+    if (qtyInput) { qtyInput.focus(); qtyInput.select(); }
 }
 
 function addNewCakeToSystem(rawName) {
@@ -969,9 +1307,9 @@ function addNewCakeToSystem(rawName) {
         localStorage.setItem('da_cakeDatabase', JSON.stringify(cakeDatabase));
         database.ref('da_cakeDatabase').set(cakeDatabase);
         selectCakeOption(cleanName, price);
-        innerSearchBar.value = "";
+        if (innerSearchBar) innerSearchBar.value = "";
         buildCakeDropdownList("");
-        showPopupAlert("Cake Added!", '"' + cleanName + '" permanently saved.', true);
+        showPopupAlert("Added!", '"' + cleanName + '" saved.', true);
     });
 }
 
@@ -981,16 +1319,14 @@ function triggerCartInsertion() {
     const qty = parseFloat(qtyInput.value) || 0;
     const rate = parseFloat(document.getElementById('rateInput').value) || 0;
     const total = rate * qty;
-
     if (!item) {
-        showPopupAlert("Selection Required", "Pehle product item list se cake select karein!", false);
+        showPopupAlert("Required", "Pehle product select karein!", false);
         return;
     }
     if (qty <= 0) {
-        showPopupAlert("Invalid Quantity", "Quantity / Weight 0 se zyada honi chahiye!", false);
+        showPopupAlert("Invalid", "Quantity 0 se zyada honi chahiye!", false);
         return;
     }
-
     cartItems.push({ name: item, weight: qty, unit: unit, rate: rate, total: total });
     recalculatePOSSums();
     activeSelectedCake = "";
@@ -1008,11 +1344,11 @@ function removeCartItem(idx) {
 function editCartItem(idx) {
     const x = cartItems[idx];
     if (!x) return;
-    showAppPrompt('Edit Quantity', 'Quantity / Weight for ' + x.name, x.weight, function(newQty) {
+    showAppPrompt('Edit Qty', 'Quantity for ' + x.name, x.weight, function(newQty) {
         if (newQty === null || newQty === undefined) return;
         const qty = parseFloat(newQty) || 0;
         if (qty <= 0) {
-            showPopupAlert('Invalid', 'Quantity 0 se zyada honi chahiye', false);
+            showPopupAlert('Invalid', 'Qty 0 se zyada', false);
             return;
         }
         showAppPrompt('Edit Rate', 'Rate (Rs.) for ' + x.name, x.rate, function(newRate) {
@@ -1028,6 +1364,7 @@ function editCartItem(idx) {
 
 function recalculatePOSSums() {
     const tbody = document.querySelector('#cartTable tbody');
+    if (!tbody) return;
     tbody.innerHTML = "";
     let overall = 0;
     cartItems.forEach((x, i) => {
@@ -1038,8 +1375,8 @@ function recalculatePOSSums() {
             <td>Rs. ${x.rate}</td>
             <td><strong>Rs. ${x.total}</strong></td>
             <td style="white-space:nowrap;">
-                <button class="btn btn-add" type="button" style="padding:6px 10px;font-size:12px;margin-right:4px;" onclick="editCartItem(${i})">Edit</button>
-                <button class="btn btn-danger" type="button" onclick="removeCartItem(${i})">Delete</button>
+                <button class="btn btn-add" type="button" style="padding:3px 7px;font-size:10px;margin-right:2px;" onclick="editCartItem(${i})">Edit</button>
+                <button class="btn btn-danger" type="button" onclick="removeCartItem(${i})">Del</button>
             </td>
         </tr>`;
         overall += x.total;
@@ -1050,32 +1387,26 @@ function recalculatePOSSums() {
 
 function fireFinalExecution() {
     if (cartItems.length === 0) {
-        showPopupAlert("Empty Invoice", "Bill banane ke liye cart mein items add karein!", false);
+        showPopupAlert("Empty", "Cart mein items add karein!", false);
         return;
     }
-
     const currentRef = "D.A-" + String(referenceId).padStart(3, '0');
     document.getElementById('pRef').innerText = "Ref No: " + currentRef;
-
     const now = new Date();
     const timeStr = now.toLocaleDateString() + " " + now.toLocaleTimeString();
     const isoTs = now.getTime();
     document.getElementById('pDateTime').innerText = "Date & Time: " + timeStr;
-
     let cName = document.getElementById('custName').value;
     let cPhone = document.getElementById('custNumber').value;
     let cAddress = document.getElementById('custAddress').value;
     let cMethod = document.getElementById('payMode').value;
     let status = document.getElementById('orderStatus').value || 'Cake Pending';
-
     let clientMarkup = ``;
     if (cName) clientMarkup += `<strong>Customer Name:</strong> ${cName}<br>`;
     if (cPhone) clientMarkup += `<strong>Contact Number:</strong> ${cPhone}<br>`;
     if (cAddress) clientMarkup += `<strong>Delivery Address:</strong> ${cAddress}`;
-
-    document.getElementById('pCustDetails').innerHTML = clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher";
+    document.getElementById('pCustDetails').innerHTML = clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest";
     document.getElementById('pStatusLine').innerText = "Status: " + status;
-
     let pItemsBody = document.getElementById('pItemsBody');
     pItemsBody.innerHTML = "";
     cartItems.forEach(x => {
@@ -1087,53 +1418,48 @@ function fireFinalExecution() {
             <td style="text-align:right;font-weight:bold;">Rs. ${x.total}</td>
         </tr>`;
     });
-
     const finalTotal = document.getElementById('grandTotal').innerText;
     document.getElementById('pGrandTotal').innerText = finalTotal;
     document.getElementById('pMethod').innerText = cMethod;
-    // New bill is never cancelled at print time
     setPrintCancelledUI(false, finalTotal, '');
-
     window.print();
-
     let logObj = {
         vouchRef: currentRef,
         time: timeStr,
         ts: isoTs,
         amount: finalTotal,
-        clientData: clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest Voucher",
+        clientData: clientMarkup || "<strong>Customer Mode:</strong> Walk-In Guest",
         itemsArray: [...cartItems],
         paymentMethod: cMethod,
         status: status,
-        operatorName: (document.getElementById('operatorName') && document.getElementById('operatorName').value.trim()) || localStorage.getItem('da_operator') || 'Counter',
-        createdBy: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'PC'
+        operatorName: (document.getElementById('operatorName') && document.getElementById('operatorName').value.trim()) || (currentUser && currentUser.name) || 'Counter',
+        createdBy: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'PC',
+        loggedUser: (currentUser && currentUser.username) || ''
     };
-
     totalVouchersHistory.unshift(logObj);
     referenceId++;
     localStorage.setItem('da_referenceId', referenceId);
     localStorage.setItem('da_vouchersHistory', JSON.stringify(totalVouchersHistory));
-
-    document.getElementById('syncStatus').innerText = "🔄 Syncing with Cloud...";
+    document.getElementById('syncStatus').innerText = "🔄 Syncing...";
     database.ref('da_referenceId').set(referenceId);
     database.ref('da_vouchersHistory').set(totalVouchersHistory).then(() => {
-        document.getElementById('syncStatus').innerText = "☁️ Cloud Synced & Secure";
+        document.getElementById('syncStatus').innerText = "☁️ Synced";
         document.getElementById('syncStatus').style.color = "var(--success)";
     }).catch(e => {
         console.error(e);
-        document.getElementById('syncStatus').innerText = "⚠️ Cloud Sync Failed";
+        document.getElementById('syncStatus').innerText = "⚠️ Sync Failed";
         document.getElementById('syncStatus').style.color = "var(--danger)";
     });
-
     document.getElementById('refNumber').innerText = "D.A-" + String(referenceId).padStart(3, '0');
     cartItems = [];
     recalculatePOSSums();
     renderSystemLogs();
+    refreshDashboard();
     document.getElementById('custName').value = "";
     document.getElementById('custNumber').value = "";
     document.getElementById('custAddress').value = "";
     document.getElementById('orderStatus').value = "Cake Pending";
-    showPopupAlert("Voucher Saved", `Invoice ${currentRef} saved (Status: ${status})`, true);
+    showPopupAlert("Saved", `Invoice ${currentRef} saved (${status})`, true);
 }
 
 function setPrintCancelledUI(isCancel, amount, reason) {
@@ -1145,13 +1471,11 @@ function setPrintCancelledUI(isCancel, amount, reason) {
         if (corner) corner.style.display = 'block';
         if (banner) {
             banner.style.display = 'block';
-            banner.innerText = reason
-                ? ('⚠ CANCELLED VOUCHER — ' + reason)
-                : '⚠ THIS VOUCHER IS CANCELLED — NOT VALID FOR DELIVERY / PAYMENT';
+            banner.innerText = reason ? ('⚠ CANCELLED — ' + reason) : '⚠ CANCELLED VOUCHER';
         }
         if (totalNote) {
             totalNote.style.display = 'block';
-            totalNote.innerText = 'TOTAL: CANCELLED — VOUCHER VOID (was Rs. ' + (amount || '0') + ')';
+            totalNote.innerText = 'TOTAL: CANCELLED (was Rs. ' + (amount || '0') + ')';
         }
         if (grandWrap) grandWrap.style.textDecoration = 'line-through';
         document.getElementById('pGrandTotal').innerText = 'CANCELLED';
@@ -1165,7 +1489,7 @@ function setPrintCancelledUI(isCancel, amount, reason) {
 
 function searchAndPrintOldInvoice() {
     let searchVal = document.getElementById('searchRefInput').value.trim().toUpperCase();
-    if (!searchVal) { showPopupAlert("Required", "Please enter a Reference number!", false); return; }
+    if (!searchVal) { showPopupAlert("Required", "Ref number enter karein!", false); return; }
     let formattedSearch = searchVal;
     if (!searchVal.startsWith("D.A-")) {
         let digits = searchVal.replace(/\D/g, "");
@@ -1173,7 +1497,7 @@ function searchAndPrintOldInvoice() {
     }
     let record = totalVouchersHistory.find(v => v && v.vouchRef === formattedSearch);
     if (!record) {
-        showPopupAlert("Not Found", `Record for "${formattedSearch}" not found!`, false);
+        showPopupAlert("Not Found", `"${formattedSearch}" nahi mila!`, false);
         return;
     }
     const isCancel = String(record.status || '').toLowerCase().includes('cancel');
@@ -1202,22 +1526,22 @@ function searchAndPrintOldInvoice() {
 
 function renderSystemLogs() {
     const container = document.getElementById('historyLogsBox');
+    if (!container) return;
     if (!totalVouchersHistory.length) {
-        container.innerHTML = `<div style="padding:15px;text-align:center;font-size:12px;color:#999;">No past records logged</div>`;
+        container.innerHTML = `<div style="padding:12px;text-align:center;font-size:11px;color:#999;">No records</div>`;
         return;
     }
     container.innerHTML = "";
-    totalVouchersHistory.slice(0, 30).forEach(log => {
+    totalVouchersHistory.slice(0, 25).forEach(log => {
         if (!log) return;
         const st = log.status || 'Cake Pending';
         const badge = statusBadgeClass(st);
         const isCancel = String(st).toLowerCase().includes('cancel');
-        // Status locked after save — only admin can change
         container.innerHTML += `<div class="history-item">
             <span>
                 <strong>${log.vouchRef}</strong>
-                <span class="badge ${badge}" style="margin-left:4px;">${st}</span>
-                ${isCancel && log.cancelReason ? '<div style="font-size:10px;color:#991b1b;">' + log.cancelReason + '</div>' : ''}
+                <span class="badge ${badge}" style="margin-left:3px;">${st}</span>
+                ${isCancel && log.cancelReason ? '<div style="font-size:9px;color:#991b1b;">' + log.cancelReason + '</div>' : ''}
             </span>
             <span style="color:${isCancel ? 'var(--danger)' : 'var(--success)'};font-weight:700;">
                 ${isCancel ? 'CANCELLED' : ('Rs. ' + log.amount)}
@@ -1226,14 +1550,12 @@ function renderSystemLogs() {
     });
 }
 
-/* Keyboard navigation: Enter → next field */
 function setupKeyboardNav() {
     const order = ['cake-search', 'unit', 'qty', 'rate', 'cust-name', 'cust-phone', 'pay', 'status', 'operator', 'address'];
     document.addEventListener('keydown', function(e) {
         if (e.key !== 'Enter') return;
         const el = e.target;
         if (!el.classList.contains('kb-field') && el.id !== 'innerSearchBar') return;
-        // If in cake search and results exist, don't block selection
         if (el.id === 'innerSearchBar') return;
         e.preventDefault();
         const kb = el.getAttribute('data-kb');
@@ -1251,30 +1573,38 @@ function setupKeyboardNav() {
             if (next) { next.focus(); if (next.select) try { next.select(); } catch(e){} }
         }
     });
-
-    // Select trigger: Enter opens dropdown
-    document.getElementById('selectTrigger').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleDropdownGrid();
-        }
-    });
+    const trigger = document.getElementById('selectTrigger');
+    if (trigger) {
+        trigger.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdownGrid();
+            }
+        });
+    }
 }
 
 function setupInputWatchers() {
-    innerSearchBar.addEventListener('input', function() { buildCakeDropdownList(this.value); });
+    if (innerSearchBar) {
+        innerSearchBar.addEventListener('input', function() { buildCakeDropdownList(this.value); });
+    }
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.search-container')) dropdownPanel.style.display = "none";
+        if (dropdownPanel && !e.target.closest('.search-container')) dropdownPanel.style.display = "none";
     });
     window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
             e.preventDefault();
-            fireFinalExecution();
+            if (document.getElementById('view-pos').classList.contains('active')) {
+                fireFinalExecution();
+            }
         }
     });
-    document.getElementById('searchRefInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') searchAndPrintOldInvoice();
-    });
+    const searchRef = document.getElementById('searchRefInput');
+    if (searchRef) {
+        searchRef.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') searchAndPrintOldInvoice();
+        });
+    }
 }
 </script>
 </body>
